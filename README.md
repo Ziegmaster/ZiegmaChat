@@ -15,5 +15,11 @@ The list of query parameters to specify the widget behavior.
 | char-limit | empty, value | empty(150) | An approximate limit for trimming of a message that is too long. |
 | chat-align | empty, left, right | empty(left) | Horizontal alignment of chat messages. |
 
+# Use your own CSS and templates
+Navigate to **../%ZiegmaChat%/resources/themes** and see what you can do.
+
 # Building from source
 Note: chat directory must be placed inside **../%ZiegmaChat%/resources**
+
+# Credits
+Thanks to [**BlackyWhoElse**]([https://www.google.com](https://github.com/BlackyWhoElse/streamer.bot-actions)) for the chat widget that was modified for correct usage in this project.
