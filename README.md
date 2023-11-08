@@ -11,7 +11,7 @@ The list of query parameters to specify the widget behavior.
 | msg-interval | empty, value | empty(4000) | Debug messages interval in miliseconds (1000 = 1 sec). |
 | hide-delay | empty, value | empty(15000) | Delay before messages disappear in miliseconds (1000 = 1 sec). |
 | ws-port | empty, value | empty(8080) | Websocket port to connect to Streamer.bot |
-| theme | empty, value | empty(Ziegmaster) | Name of template directory inside **../%ZiegmaChat%/resources/chat/theme** |
+| theme | empty, value | empty(Ziegmaster) | Name of theme directory inside **../%ZiegmaChat%/resources/chat/theme** |
 | char-limit | empty, value | empty(150) | An approximate limit for trimming of a message that is too long. |
 | chat-align | empty, left, right | empty(left) | Horizontal alignment of chat messages. |
 
