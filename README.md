@@ -5,7 +5,7 @@ Ready to use for Twitch streamers.
 # Export widget URL
 The list of query parameters to specify the widget behavior.
 
-| **Parameter** | **Possible values** | **Default value** (when empty) | **Description** |
+| **Parameter** | **Possible values** | When empty | **Description** |
 | ------ | ------ | ------ | ------ |
 | debug | empty, true | false | Enables "Debug mode". Allows you to test the application without using a real chat. |
 | msg-interval | empty, value | 4000 | Debug messages interval in miliseconds (1000 = 1 sec). |
