@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+
+:root {
+    --font-family: "Source Sans Pro", sans-serif;
+    --font-size: 24px;
+    --font-color: rgb(219, 209, 209);
+    --background-color: #161616;
+    --background-color-input: #242424;
+    --background-color-button: #5865F2;
+    --background-color-button-open: #128F0C;
+    --background-color-button-close: #AB0C0C;
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+body{
+    font-size: var(--font-size);
+    font-family: var(--font-family);
+    user-select: none;
+    background-color: var(--background-color);
+    color: var(--font-color);
+    padding: .5rem 1rem 1rem 1rem;
+    box-sizing: border-box;
+}
+
+input[type='checkbox'], .checkboxes label{
+    cursor: pointer;
+}
+
+label:not(.checkboxes){
+    text-align: center;
+}
+
+input[type='number']{
+    height: 2.5rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    font-size: var(--font-size);
+    color: var(--font-color);
+    background-color: var(--background-color-input);
+    border-radius: .4rem;
+    border: none;
+    outline: none;
+    text-align: center;
+}
+
+input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+button{
+    height: 3rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    font-size: var(--font-size);
+    color: var(--font-color);
+    background-color: var(--background-color-button);
+    border-radius: .4rem;
+    outline: none;
+    border: none;
+    transition: background-color .2s linear;
+}
+
+button:enabled{
+    cursor: pointer;
+    filter: brightness(90%);
+    -webkit-filter: brightness(90%);
+}
+
+button:hover{
+    filter: brightness(100%);
+    -webkit-filter: brightness(100%);
+}
+
+button:disabled{
+    opacity: .8;
+    background-color: var(--background-color-input);
+}
+
+.settings{
+    display: flex;
+    flex-direction: column;
+}
+
+.export{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.settings > .checkboxes{
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+.settings > button{
+    margin-top: 1rem;
+    width: 60%;
+    align-self: center;
+}
+
+.export > button{
+    width: 90%;
+    justify-self: center;
+}
+
+#open.open{
+    background-color: var(--background-color-button-open);
+}
+
+#open.close{
+    background-color: var(--background-color-button-close);
+}

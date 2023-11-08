@@ -1,0 +1,24 @@
+{
+  "name": "ziegmachat",
+  "version": "1.0.0",
+  "description": "A Streamer.bot websocket based chat application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron . --no-sandbox"
+  },
+  "repository": "https://github.com/TrueZiegmaster/ZiegmaChat",
+  "keywords": [
+    "Electron",
+    "start"
+  ],
+  "author": "Ziegmaster",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.2",
+    "electron-packager": "^17.1.2"
+  },
+  "dependencies": {
+    "electron-store": "^8.1.0",
+    "electron-window-state": "^5.0.3"
+  }
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="./styles.css" rel="stylesheet">
+  <title>ZiegmaChat</title>
+</head>
+<body>
+  <div class="export">
+    <button id="open" class="open">Open</button>
+    <button id="copy">Copy URL</button>
+  </div>
+  <div class="settings">
+    <div class="checkboxes">
+      <div>
+        <input id="game-mode" type="checkbox"/>
+        <label for="game-mode">Game mode</label>
+      </div>
+      <div>
+        <input id="debug-mode" data-settings="" type="checkbox"/>
+        <label for="debug-mode">Show test messages</label>
+      </div>
+    </div>
+    <label for="chat-http-port">ZiegmaChat HTTP port</label>
+    <input id="chat-http-port" type="number" min="0"/>
+    <label for="streamerbot-ws-port">Streamer.bot websocket port</label>
+    <input id="streamerbot-ws-port" type="number" min="0"/>
+    <button id="apply" disabled>Apply changes</button>
+  </div>
+  <script src="./renderer.js"></script>
+</body>
+</html>
