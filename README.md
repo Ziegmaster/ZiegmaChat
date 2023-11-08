@@ -1,5 +1,6 @@
 # ZiegmaChat
 A Streamer.bot websocket based chat application built with Electron.
+Ready to use for Twitch streamers.
 
 # Export widget URL
 The list of query parameters to specify the widget behavior.
