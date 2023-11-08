@@ -22,4 +22,4 @@ Navigate to **../%ZiegmaChat%/resources/themes** and see what you can do.
 Note: chat directory must be placed inside **../%ZiegmaChat%/resources**
 
 # Credits
-Thanks to [**BlackyWhoElse**]([https://www.google.com](https://github.com/BlackyWhoElse/streamer.bot-actions)) for the chat widget that was modified for correct usage in this project.
+Thanks to [BlackyWhoElse]([https://www.google.com](https://github.com/BlackyWhoElse/streamer.bot-actions)) for the chat widget that was modified for correct usage in this project.
