@@ -13,7 +13,7 @@ The list of query parameters to specify the widget behavior.
 | ws-port | empty, value | 8080 | Websocket port to connect to Streamer.bot |
 | theme | empty, value | Ziegmaster | Name of theme directory inside **../%ZiegmaChat%/resources/chat/theme** |
 | char-limit | empty, value | 150 | Approximate limit for trimming a message that is too long. |
-| chat-align | empty, left, right | left | Horizontal alignment of chat messages. |
+| chat-align | empty, Left, Right | Left | Horizontal alignment of chat messages. |
 
 # Use your own CSS and templates
 Navigate to **../%ZiegmaChat%/resources/chat/theme** and see what you can do.
