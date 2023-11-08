@@ -16,7 +16,7 @@ The list of query parameters to specify the widget behavior.
 | chat-align | empty, left, right | empty(left) | Horizontal alignment of chat messages. |
 
 # Use your own CSS and templates
-Navigate to **../%ZiegmaChat%/resources/themes** and see what you can do.
+Navigate to **../%ZiegmaChat%/resources/chat/themes** and see what you can do.
 
 # Building from source
 Note: chat directory must be placed inside **../%ZiegmaChat%/resources**
