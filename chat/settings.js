@@ -12,7 +12,7 @@ let settings = {
         messageInterval : parseInt(urlParams.get("msg-interval")) || 4000
     },
     //Theme directory name
-    template: urlParams.get("template") || "ziegmaster",
+    template: urlParams.get("theme") || "ziegmaster",
     filter : {
         //Max number of characters displayed per message (approx)
         characterLimit: parseInt(urlParams.get("char-limit")) || 150,
