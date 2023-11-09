@@ -2,6 +2,9 @@
 A Streamer.bot websocket based chat application built with Electron.
 Ready to use for Twitch streamers.
 
+# TODO
+In-app widget configuration (modifying query params to change things like font-size)
+
 # Export widget URL
 The list of query parameters to specify the widget behavior.
 
