@@ -58,7 +58,6 @@ const createMainWindow = (type) => {
 const createChatWindow = () => {
   //This is not a window's settings but the widget one's
   let chat_settings = settings.get('app.chat');
-  chatWindow?.close();
   chatWindow = new BrowserWindow({
     x: chatWindowState.x,
     y: chatWindowState.y,
@@ -98,7 +97,7 @@ ipcMain.on('chat-open', createChatWindow);
 
 //Close chat window when receive command
 ipcMain.on('chat-close', () => {
-  chatWindow.close();
+  chatWindow.destroy();
 });
 
 //Copy chat URL to clipboard when receive command
@@ -122,6 +121,7 @@ ipcMain.on('settings-set', (event, data) => {
     server.listen(data.server.port);
   }
   if (chatWindow && Object.keys(data.chat).length > 0) {
+    chatWindow.destroy();
     createChatWindow();
   }
 });
@@ -158,8 +158,8 @@ app.whenReady().then(() => {
     },
     {
       label: 'Quit', click: function () {
-        chatWindow.close();
-        mainWindow.close();
+        chatWindow.destroy();
+        mainWindow.destroy();
         app.quit();
       }
     }
