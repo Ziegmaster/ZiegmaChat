@@ -1,4 +1,4 @@
-const { app, Menu, Tray, BrowserWindow, ipcMain } = require('electron');
+const { app, Menu, Tray, BrowserWindow, ipcMain, dialog } = require('electron');
 const windowStateKeeper = require('electron-window-state');
 const path = require('path');
 const settings = require('./settings');
@@ -21,6 +21,10 @@ const getChatURL = () => {
   let url = 'http://localhost:';
   url += `${s.server.port}`;
   url += `/?ws-port=${s.chat.port}`;
+  url += `&chat-align=${s.chat.align_right ? 'Right' : 'Left'}`;
+  url += `&hide-delay=${s.chat.hide_delay}`;
+  url += `&font-size=${s.chat.font_size}`;
+  url += `&theme=${s.chat.theme}`;
   url += `&debug=${s.chat.debug}`;
   return url;
 };
@@ -126,6 +130,26 @@ ipcMain.on('settings-set', (event, data) => {
   }
 });
 
+//Reset all settings to defaults when receive command and push them back
+ipcMain.on('reset-to-defaults', (event, data) => {
+  dialog.showMessageBox(mainWindow, {
+    type : 'question',
+    buttons : ['&Yes', '&Cancel'],
+    defaultId : 1,
+    title : 'ZiegmaChat',
+    message : 'Are you sure you want to reset to defaults?',
+    icon : iconPath,
+    cancelId : 1,
+    normalizeAccessKeys : true
+  }).then(promise => {
+    if (promise.response === 0) {
+      //Yes button pressed
+      settings.set('app', settings.get('defaults'));
+      event.reply('settings-get', settings.get('app'));
+    }
+  });
+});
+
 //ELECTRON MAIN
 app.whenReady().then(() => {
 
@@ -158,7 +182,7 @@ app.whenReady().then(() => {
     },
     {
       label: 'Quit', click: function () {
-        chatWindow.destroy();
+        chatWindow?.destroy();
         mainWindow.destroy();
         app.quit();
       }

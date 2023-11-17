@@ -39,7 +39,7 @@ const server = http.createServer((req, res) => {
     else{
         if (!extension){
             contentType = 'text/html';
-            filePath = `${__dirname}/../chat/index.html`;
+            filePath = `${__dirname}/../widget/index.html`;
         }
         else{
             switch (extension) {
@@ -65,7 +65,7 @@ const server = http.createServer((req, res) => {
                     contentType = 'text/html';
                     break;
             }
-            filePath = `${__dirname}/../chat${req.url}`;
+            filePath = `${__dirname}/../widget${req.url}`;
         }
     }
 

@@ -4,30 +4,75 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="./styles.css" rel="stylesheet">
+  <link href="./styles/main.css" rel="stylesheet">
+  <link href="./styles/slider.css" rel="stylesheet">
   <title>ZiegmaChat</title>
 </head>
 <body>
-  <div class="export">
-    <button id="open" class="open">Open</button>
-    <button id="copy">Copy URL</button>
+  <div class="top-menu">
+    <div class="app-button disabled" id="open"><img src="images/eye.png" title="Toggle visibility"></div>
+    <div class="app-button disabled" id="game-mode"><img src="images/game.png" title="Toggle game mode"></div>
+    <div class="app-button" id="copy">
+      <img src="images/copy-black.png">
+      <img src="images/copy.png" title="Copy URL">
+    </div>
+    <div class="app-button disabled" id="apply"><img src="images/accept.png" title="Apply changes"></div>
+    <div class="app-button disabled" id="discard"><img src="images/decline.png" title="Discard changes"></div>
   </div>
-  <div class="settings">
-    <div class="checkboxes">
-      <div>
-        <input id="game-mode" type="checkbox"/>
-        <label for="game-mode">Game mode</label>
+  <label id="settings-label">Settings</label>
+  <label id="tab-label">Streamer.bot</label>
+  <div class="navbar">
+    <div class="app-button tab-ref" id="widget"><img src="images/widget.png"></div>
+    <div class="app-button tab-ref" id="streamer-bot"><img src="images/streamerbot.png"></div>
+    <div class="app-button lighter" id="reset-to-defaults"><img src="images/reset.png" title="Reset to defaults"></div>
+  </div>
+  <div class="main">
+    <div class="content-wrapper">
+      <div class="tab widget" data-name="Chat widget">
+        <div class="block">
+          <label for="chat-http-port">HTTP port</label>
+          <input id="chat-http-port" type="number"/>
+        </div>
+        <div class="block">
+          <label for="chat-theme">Theme</label>
+          <input id="chat-theme" type="text"/>
+        </div>
+        <div class="block">
+          <label for="debug-mode">Show test messages</label>
+          <br>
+          <label class="switch">
+            <input type="checkbox" id="debug-mode">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="block">
+          <label for="chat-align-right">Position messages to the right</label>
+          <br>
+          <label class="switch">
+            <input type="checkbox" id="chat-align-right">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="block">
+          <label for="chat-msg-hide-delay">Message hide delay (1000 = 1s)</label>
+          <input id="chat-msg-hide-delay" type="number"/>
+        </div>
+        <div class="block">
+          <label for="chat-char-limit">Character limit per message</label>
+          <input id="chat-char-limit" type="number"/>
+        </div>
+        <div class="block">
+          <label for="chat-font-size">Font size</label>
+          <input id="chat-font-size" type="number"/>
+        </div>
       </div>
-      <div>
-        <input id="debug-mode" data-settings="" type="checkbox"/>
-        <label for="debug-mode">Show test messages</label>
+      <div class="tab streamer-bot active" data-name="Streamer.bot">
+        <div class="block">
+          <label for="streamerbot-ws-port">Websocket port</label>
+          <input id="streamerbot-ws-port" type="number" min="0"/>
+        </div>
       </div>
     </div>
-    <label for="chat-http-port">ZiegmaChat HTTP port</label>
-    <input id="chat-http-port" type="number" min="0"/>
-    <label for="streamerbot-ws-port">Streamer.bot websocket port</label>
-    <input id="streamerbot-ws-port" type="number" min="0"/>
-    <button id="apply" disabled>Apply changes</button>
   </div>
   <script src="./renderer.js"></script>
 </body>
