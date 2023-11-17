@@ -20,7 +20,9 @@ The list of query parameters to specify the widget behavior.
 Navigate to **../%ZiegmaChat%/resources/widget/theme** and see what you can do.
 
 # Building from source
-electron-packager %PATH_TO_APP_FOLDER% name --platform=win32 --arch=x64 --icon=./favicon.ico
+Navigate to ZiegmaChat directory  
+
+electron-packager app name --platform=win32 --arch=x64 --icon=./app/favicon.ico
 > Note: widget directory must be placed inside **%YOUR_BUILD%/resources**
 
 # Credits
