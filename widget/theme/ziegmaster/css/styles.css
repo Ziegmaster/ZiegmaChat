@@ -3,21 +3,21 @@
 :root {
     /** Left: row Right: row-reverse */
     /*--chat-align: row;*/
-    --avatar-size: 64px;
-    --element-spacing: 10px;
-    --message-padding: 12px;
-    --message-gap-bottom: 16px;
+    --avatar-size: 2rem;
+    --element-spacing: .6rem;
+    --message-padding: .7rem;
+    --message-gap-bottom: .5rem;
     --message-background-color: rgba(0,0,0,0.96);
     --message-border-color: rgba(0,0,0,.6);
-    --message-border-radius: 16px;
-    --message-border-shadow: 8px;
-    --message-border-size: 8px;
+    --message-border-radius: .5rem;
+    --message-border-shadow: .25rem;
+    --message-border-size: .25rem;
     --rewardColor: purple;
-    --badge-size: 32px;
-    --emote-size: 32px;
-    --emote-only-size: 32px;
+    --badge-size: 1rem;
+    --emote-size: 1rem;
+    --emote-only-size: 1rem;
     --font-color: #fff;
-    --font-size: 32px;
+    /*--font-size: 32px;*/
     --font-family: "Source Sans Pro", sans-serif;
     --time-size: 0;
     --time-align: right;
@@ -26,11 +26,14 @@
     --grid-avatar-row: calc(var(--avatar-size) / 2);
 }
 
-body {
-    user-select: none;
-    font-family: var(--font-family);
-    margin: 0;
+html, body{
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
     padding: 0;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    user-select: none;
 }
 
 #chat {
@@ -56,7 +59,6 @@ body {
     display: grid;
     grid-template-columns: var(--avatar-size) min-content auto;
     grid-template-rows: var(--grid-avatar-row) var(--grid-avatar-row) auto;
-    font-size: var(--font-size);
     color: var(--font-color);
     background-color: var(--message-background-color);
     border-radius: var(--message-border-radius);
@@ -71,10 +73,10 @@ body {
     position: absolute;
     box-sizing: border-box;
     z-index: 10000;
-    width: calc(100% - 16px);
-    height: calc(100% - 16px);
-    margin: 8px;
-    border-radius: 8px;
+    width: calc(100% - var(--message-border-size) * 2);
+    height: calc(100% - var(--message-border-size) * 2);
+    margin: var(--message-border-size);
+    border-radius: var(--message-border-size);
     box-shadow: 0 0 0 var(--message-border-shadow) var(--message-border-color);
 }
 

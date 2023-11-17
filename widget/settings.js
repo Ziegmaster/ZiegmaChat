@@ -3,7 +3,9 @@ const urlParams = new URLSearchParams(window.location.search);
 let root = document.documentElement;
 
 let chatAlign = urlParams.get("chat-align") || "Left";
+let fontSize = urlParams.get("font-size") || 32;
 root.style.setProperty("--chat-align", chatAlign == "Left" ? "row" : "row-reverse");
+root.style.setProperty("--font-size", `${fontSize}px`);
 
 let settings = {
     websocketURL: `ws://localhost:${urlParams.get("ws-port") || 8080}`,

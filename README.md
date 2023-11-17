@@ -1,9 +1,6 @@
 # ZiegmaChat
-A Streamer.bot websocket based chat application built with Electron.
+A Streamer.bot websocket based chat application built with Electron.  
 Ready to use for Twitch streamers.
-
-# TODO
-In-app widget configuration (modifying query params to change things like font-size)
 
 # Export widget URL
 The list of query parameters to specify the widget behavior.
@@ -14,15 +11,17 @@ The list of query parameters to specify the widget behavior.
 | msg-interval | empty, value | 4000 | Debug messages interval in miliseconds (1000 = 1 sec). |
 | hide-delay | empty, value | 15000 | Delay before messages disappear in miliseconds (1000 = 1 sec). |
 | ws-port | empty, value | 8080 | Websocket port to connect to Streamer.bot |
-| theme | empty, value | Ziegmaster | Name of theme directory inside **../%ZiegmaChat%/resources/chat/theme** |
+| theme | empty, value | Ziegmaster | Name of theme directory inside **../%ZiegmaChat%/resources/widget/theme** |
 | char-limit | empty, value | 150 | Approximate limit for trimming a message that is too long. |
 | chat-align | empty, Left, Right | Left | Horizontal alignment of chat messages. |
+| font-size | empty, value | 32 | Value needed for text and UI scaling. |
 
 # Use your own CSS and templates
-Navigate to **../%ZiegmaChat%/resources/chat/theme** and see what you can do.
+Navigate to **../%ZiegmaChat%/resources/widget/theme** and see what you can do.
 
 # Building from source
-Note: chat directory must be placed inside **../%ZiegmaChat%/resources**
+electron packager %PATH_TO_APP_FOLDER% name --platform=win32 --arch=x64 --icon=./favicon.ico
+> Note: widget directory must be placed inside **%YOUR_BUILD%/resources**
 
 # Credits
 Thanks to [**BlackyWhoElse**](https://github.com/BlackyWhoElse/streamer.bot-actions) for the chat widget that was modified for correct usage in this project.

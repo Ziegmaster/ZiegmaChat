@@ -108,6 +108,9 @@ async function pushMessage(type, message) {
             if (message.role === 3) {
                 message.classes.push("moderator");
             }
+            if (message.role === 2) {
+                message.classes.push("vip");
+            }
 
             break;
 
@@ -485,13 +488,13 @@ function __debugMessages(){
         isHighlighted: false,
         isMe: false,
         isReply: false,
-        monthsSubscribed: 57,
+        monthsSubscribed: 12,
         msgId: makeid(12),
         role: r,
         subscriber: sub,
-        userId: 27638012,
+        userId: 160832700,
         username: "ziegmaster",
-        time: "19:36",
+        time: "13:37",
     };
 
     pushMessage('chatmessage', {...message, ...randomMessage()});
