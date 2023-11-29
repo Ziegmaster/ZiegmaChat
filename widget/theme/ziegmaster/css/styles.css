@@ -5,7 +5,7 @@
     /*--chat-align: row;*/
     --avatar-size: 2rem;
     --element-spacing: .6rem;
-    --message-padding: .7rem;
+    --message-padding: .4rem;
     --message-gap-bottom: .5rem;
     --message-background-color: rgba(0,0,0,0.96);
     --message-border-color: rgba(0,0,0,.6);
