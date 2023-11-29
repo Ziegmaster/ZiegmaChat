@@ -3,7 +3,7 @@
     position: relative;
     display: inline-block;
     width: 4rem;
-    height: 1.5rem;
+    height: 1.4rem;
     margin-top: .5rem;
     margin-bottom: .5rem;
   }
@@ -35,13 +35,13 @@
     width: 1rem;
     left: .5rem;
     bottom: .2rem;
-    background-color: var(--font-color);
+    background-color: var(--font-subcolor);
     -webkit-transition: .4s;
     transition: .4s;
   }
   
   input:checked + .slider {
-    background-color: #1270bc;
+    background-color: var(--button-color-purple);
   }
   
   input:checked + .slider:before {

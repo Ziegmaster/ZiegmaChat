@@ -3,8 +3,9 @@
 :root {
     --font-family: "Source Sans Pro", sans-serif;
     --font-size: 20px;
-    --app-button-size: 48px;
-    --font-color: #DBD1D1;
+    --app-button-size: 2.4rem;
+    --font-color: #E3ECFF;
+    --font-subcolor: #C7D9F9;
     --background-color-darker: #101010;
     --background-color-primary: #141414;
     --background-color-lighter: #242424;
@@ -15,7 +16,7 @@
     --image-filter-purple: invert(47%) sepia(45%) saturate(4725%) hue-rotate(241deg) brightness(93%) contrast(100%);
     --image-filter-green: invert(16%) sepia(96%) saturate(2564%) hue-rotate(106deg) brightness(95%) contrast(95%);
     --image-filter-red: invert(12%) sepia(79%) saturate(4203%) hue-rotate(355deg) brightness(97%) contrast(98%);
-    --image-filter-font: invert(98%) sepia(41%) saturate(303%) hue-rotate(292deg) brightness(94%) contrast(82%);
+    --image-filter-font: invert(81%) sepia(4%) saturate(1738%) hue-rotate(194deg) brightness(113%) contrast(101%);
     --image-filter-lighter: invert(8%) sepia(1%) saturate(1146%) hue-rotate(31deg) brightness(105%) contrast(87%);
 }
 
@@ -25,18 +26,21 @@ html, body{
     margin: 0 auto;
 }
 
-body{
+html{
     font-size: var(--font-size);
     font-family: var(--font-family);
-    user-select: none;
-    background-color: var(--background-color-darker);
-    color: var(--font-color);
+}
+
+body{
     padding: 1rem .5rem .5rem .5rem;
     box-sizing: border-box;
     display: grid;
     grid-gap: .5rem;
     grid-template-columns: .25fr 1fr;
     grid-template-rows: var(--app-button-size) 1.6rem 1fr;
+    background-color: var(--background-color-darker);
+    color: var(--font-color);
+    user-select: none;
 }
 
 input[type='text'], input[type='number']{
@@ -159,12 +163,12 @@ body > label{
 }
 
 .navbar > .app-button{
-    margin-top: 1rem;
+    margin-top: .5rem;
 }
 
 .navbar > .app-button:last-of-type{
     margin-top: auto;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
 }
 
 .navbar > .app-button:hover{

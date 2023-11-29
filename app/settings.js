@@ -12,9 +12,7 @@ settings.set('defaults', {
         debug : true,
         hide_delay : 15000,
         char_limit : 150,
-        align_right : false,
-        font_size : 32,
-        theme : "ziegmaster",
+        themes : {}
     }
 });
 

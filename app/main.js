@@ -72,6 +72,7 @@ const createChatWindow = () => {
     icon: iconPath,
   });
   chatWindow.removeMenu();
+  //This is the best solution but still doesn't work in all cases
   chatWindow.setAlwaysOnTop(chat_settings.game_mode, 'screen-saver');
   chatWindow.setIgnoreMouseEvents(chat_settings.game_mode);
   //Some dark magic to fix Electron window's header bug with frameless window
