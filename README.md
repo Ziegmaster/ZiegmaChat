@@ -1,3 +1,5 @@
+# README is WIP
+
 # ZiegmaChat
 Websocket based chat application for Streamer.bot.  
 Built with Electron.  
