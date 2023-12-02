@@ -36,12 +36,12 @@ const server = http.createServer((req, res) => {
         contentType = 'image/x-icon';
         filePath = `${__dirname}/${req.url}`;
     }
-    else{
-        if (!extension){
+    else {
+        if (!extension) {
             contentType = 'text/html';
             filePath = `${__dirname}/../widget/index.html`;
         }
-        else{
+        else {
             switch (extension) {
                 case '.css':
                     contentType = 'text/css';

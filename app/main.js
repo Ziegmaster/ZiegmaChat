@@ -1,36 +1,30 @@
 const { app, Menu, Tray, BrowserWindow, ipcMain, dialog } = require('electron');
 const windowStateKeeper = require('electron-window-state');
+const { readdir } = require('fs/promises');
 const path = require('path');
 const settings = require('./settings');
 const server = require('./server');
 
-//START INTERNAL HTTP SERVER
+// START INTERNAL HTTP SERVER
 server.listen(settings.get('app.server.port'));
 
 const iconPath = path.join(__dirname, 'favicon.ico');
 
-let tray = null;
 let mainWindow;
 let chatWindow;
 let mainWindowState;
 let chatWindowState;
 
-//GENERATE WIDGET URL FOR FURTHER USAGE AND EXPORT
-const getChatURL = () => {
-  let s = settings.get('app');
-  let url = 'http://localhost:';
-  url += `${s.server.port}`;
-  url += `/?ws-port=${s.chat.port}`;
-  url += `&chat-align=${s.chat.align_right ? 'Right' : 'Left'}`;
-  url += `&hide-delay=${s.chat.hide_delay}`;
-  url += `&font-size=${s.chat.font_size}`;
-  url += `&theme=${s.chat.theme}`;
-  url += `&debug=${s.chat.debug}`;
-  return url;
+// GENERATE WIDGET URL FOR FURTHER USAGE AND EXPORT
+const getWidgetURL = () => {
+  const s = settings.get('app');
+  const generalQueryParams = new URLSearchParams(s.widget.general).toString();
+  const themeQueryParams = new URLSearchParams(s.widget.themes[s.widget.general['theme']]).toString();
+  return `http://localhost:${s.server.port}/?${generalQueryParams}&${themeQueryParams}`;
 };
 
-//MAIN WINDOW
-const createMainWindow = (type) => {
+// MAIN WINDOW
+const createMainWindow = () => {
   mainWindow = new BrowserWindow({
     x: mainWindowState.x,
     y: mainWindowState.y,
@@ -42,7 +36,7 @@ const createMainWindow = (type) => {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
-  mainWindow.removeMenu();
+  //mainWindow.removeMenu();
   //Hide to tray instead of minimizing
   mainWindow.on('minimize', function (event) {
     event.preventDefault();
@@ -58,25 +52,24 @@ const createMainWindow = (type) => {
   mainWindowState.manage(mainWindow);
 }
 
-//CHAT WINDOW
+// CHAT WINDOW
 const createChatWindow = () => {
-  //This is not a window's settings but the widget one's
-  let chat_settings = settings.get('app.chat');
+  const gameMode = settings.get('app.widget.gameMode');
   chatWindow = new BrowserWindow({
     x: chatWindowState.x,
     y: chatWindowState.y,
     width: chatWindowState.width,
     height: chatWindowState.height,
-    transparent: chat_settings.game_mode,
-    frame: !chat_settings.game_mode,
+    transparent: gameMode,
+    frame: !gameMode,
     icon: iconPath,
   });
   chatWindow.removeMenu();
   //This is the best solution but still doesn't work in all cases
-  chatWindow.setAlwaysOnTop(chat_settings.game_mode, 'screen-saver');
-  chatWindow.setIgnoreMouseEvents(chat_settings.game_mode);
+  chatWindow.setAlwaysOnTop(gameMode, 'screen-saver');
+  chatWindow.setIgnoreMouseEvents(gameMode);
   //Some dark magic to fix Electron window's header bug with frameless window
-  if (chat_settings.game_mode) {
+  if (gameMode) {
     chatWindow.on('blur', () => {
       chatWindow.setBackgroundColor('#00000000');
     });
@@ -84,74 +77,116 @@ const createChatWindow = () => {
       chatWindow.setBackgroundColor('#00000000');
     });
   }
-  //Send "closed" event to the main window when the window is actually closed
+  //Send closed event to the main window when the window is actually closed
   chatWindow.on('closed', function () {
     chatWindow = null;
-    mainWindow?.webContents.send('chat-closed');
+    mainWindow?.webContents.send('chat-window-closed');
   });
-  chatWindow.loadURL(getChatURL());
+  chatWindow.loadURL(getWidgetURL());
   chatWindowState.manage(chatWindow);
-  //Send "opened" event to the main window
-  mainWindow.webContents.send('chat-opened');
+  //Send opened event to the main window
+  mainWindow.webContents.send('chat-window-opened');
 }
 
-//IPC SECTION
+const setHandlers = () => {
 
-//Create chat window when receive command
-ipcMain.on('chat-open', createChatWindow);
+  app.on('activate', function () {
+    if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
+  });
 
-//Close chat window when receive command
-ipcMain.on('chat-close', () => {
-  chatWindow.destroy();
-});
+  app.on('window-all-closed', function () {
+    if (process.platform !== 'darwin') app.quit();
+  });
 
-//Copy chat URL to clipboard when receive command
-ipcMain.on('copy', (event, data) => {
-  event.reply('copy', getChatURL());
-});
+  ipcMain.on('chat-window-open', () => createChatWindow());
 
-//Get stored app settings when receive command
-ipcMain.on('settings-get', (event, data) => {
-  event.reply('settings-get', settings.get('app'));
-});
+  ipcMain.on('chat-window-close', () => chatWindow.destroy());
 
-//Update stored app settings when receive command
-ipcMain.on('settings-set', (event, data) => {
-  let server_settings = settings.get('app.server');
-  settings.set('app.server', { ...server_settings, ...data.server });
-  let chat_settings = settings.get('app.chat');
-  settings.set('app.chat', { ...chat_settings, ...data.chat });
-  if (data.server.port) {
-    server.close();
-    server.listen(data.server.port);
-  }
-  if (chatWindow && Object.keys(data.chat).length > 0) {
-    chatWindow.destroy();
-    createChatWindow();
-  }
-});
+  ipcMain.handle('get-widget-url', () => getWidgetURL());
 
-//Reset all settings to defaults when receive command and push them back
-ipcMain.on('reset-to-defaults', (event, data) => {
-  dialog.showMessageBox(mainWindow, {
-    type : 'question',
-    buttons : ['&Yes', '&Cancel'],
-    defaultId : 1,
-    title : 'ZiegmaChat',
-    message : 'Are you sure you want to reset to defaults?',
-    icon : iconPath,
-    cancelId : 1,
-    normalizeAccessKeys : true
-  }).then(promise => {
-    if (promise.response === 0) {
-      //Yes button pressed
-      settings.set('app', settings.get('defaults'));
-      event.reply('settings-get', settings.get('app'));
+  ipcMain.handle('get-themes', () => {
+    return (async (source) => (await readdir(source, { withFileTypes: true }))
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name))(`${__dirname}/../widget/themes/`);
+  });
+
+  ipcMain.handle('theme-load', (_, theme) => {
+    try {
+      const themeConfig = require(`${__dirname}/../widget/themes/${theme}/ziegmachat.config.json`);
+      let s = settings.get(`app.widget.themes.${theme}`);
+      if (!s) {
+        const themeDefaults = {};
+        themeConfig.fields?.forEach(field => {
+          themeDefaults[field.name] = field.value.default;
+        });
+        s = themeDefaults;
+        settings.set(`app.widget.themes.${theme}`, s);
+      }
+      return { config: themeConfig, settings: s };
+    }
+    catch (e) {
+      if (e.code === 'MODULE_NOT_FOUND') {
+        // Return something not undefined just in case
+        return false;
+      }
     }
   });
-});
 
-//ELECTRON MAIN
+  ipcMain.handle('settings-get', () => settings.get('app'));
+
+  ipcMain.on('settings-set', (_, changedSettings) => {
+    const theme = Object.keys(changedSettings.widget.themes)[0];
+    const serverSettings = settings.get('app.server');
+    settings.set('app.server', { ...serverSettings, ...changedSettings.server });
+    const widgetGeneralSettings = settings.get('app.widget.general');
+    settings.set('app.widget.general', { ...widgetGeneralSettings, ...changedSettings.widget.general });
+    const widgetThemeSettings = settings.get(`app.widget.themes.${theme}`);
+    settings.set(`app.widget.themes.${theme}`, { ...widgetThemeSettings, ...changedSettings.widget.themes[theme] });
+    if (changedSettings.server.port) {
+      server.close();
+      server.listen(changedSettings.server.port);
+    }
+    if (Object.keys(changedSettings.widget.general).length > 0 || Object.keys(changedSettings.widget.themes[theme]).length > 0) {
+      chatWindow?.loadURL(getWidgetURL());
+    }
+  });
+
+  ipcMain.handle('settings-reset', async () => {
+    let response = false;
+    await dialog.showMessageBox(mainWindow, {
+      type: 'question',
+      buttons: ['&Yes', '&Cancel'],
+      defaultId: 1,
+      title: 'ZiegmaChat',
+      message: 'Are you sure you want to reset to defaults?',
+      icon: iconPath,
+      cancelId: 1,
+      normalizeAccessKeys: true
+    }).then(promise => {
+      if (promise.response === 0) {
+        settings.set('app', settings.get('defaults'));
+        server.close();
+        server.listen(settings.get('app.server.port'));
+        if (chatWindow) {
+          chatWindow.destroy();
+          createChatWindow();
+        }
+        response = true;
+      }
+    });
+    return response;
+  });
+
+  ipcMain.handle('toggle-game-mode', () => {
+    chatWindow?.destroy();
+    const gameMode = !settings.get('app.widget.gameMode');
+    settings.set('app.widget.gameMode', gameMode);
+    createChatWindow();
+    return gameMode;
+  });
+}
+
+// ELECTRON MAIN
 app.whenReady().then(() => {
 
   //Create state files to save windows' size and position on reload
@@ -165,9 +200,10 @@ app.whenReady().then(() => {
   });
 
   createMainWindow();
+  setHandlers();
 
-  //Create tray and its context menu
-  tray = new Tray(iconPath);
+  // Create tray and its context menu
+  const tray = new Tray(iconPath);
   const contextMenu = Menu.buildFromTemplate([
     {
       label: 'ZiegmaChat for Streamer.bot',
@@ -194,13 +230,4 @@ app.whenReady().then(() => {
   tray.on('click', () => {
     mainWindow.show();
   });
-
-  app.on('activate', function () {
-    if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
-  })
-});
-
-//APP CLOSURE
-app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit();
 });

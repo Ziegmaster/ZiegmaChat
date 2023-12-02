@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
 :root {
     --font-family: "Source Sans Pro", sans-serif;
@@ -12,27 +12,22 @@
     --button-color-purple: #A257ED;
     --button-color-teal: #00DBFF;
     --button-color-green: #0b6506;
-    --button-color-red: #AB0C0C;
-    --image-filter-purple: invert(47%) sepia(45%) saturate(4725%) hue-rotate(241deg) brightness(93%) contrast(100%);
-    --image-filter-green: invert(16%) sepia(96%) saturate(2564%) hue-rotate(106deg) brightness(95%) contrast(95%);
-    --image-filter-red: invert(12%) sepia(79%) saturate(4203%) hue-rotate(355deg) brightness(97%) contrast(98%);
-    --image-filter-font: invert(81%) sepia(4%) saturate(1738%) hue-rotate(194deg) brightness(113%) contrast(101%);
-    --image-filter-lighter: invert(8%) sepia(1%) saturate(1146%) hue-rotate(31deg) brightness(105%) contrast(87%);
+    --button-color-red: #AB0C0C
 }
 
-html, body{
+body,html {
     width: 100%;
     height: 100%;
-    margin: 0 auto;
+    margin: 0 auto
 }
 
-html{
+html {
     font-size: var(--font-size);
-    font-family: var(--font-family);
+    font-family: var(--font-family)
 }
 
-body{
-    padding: 1rem .5rem .5rem .5rem;
+body {
+    padding: 1rem .5rem .5rem;
     box-sizing: border-box;
     display: grid;
     grid-gap: .5rem;
@@ -40,10 +35,14 @@ body{
     grid-template-rows: var(--app-button-size) 1.6rem 1fr;
     background-color: var(--background-color-darker);
     color: var(--font-color);
-    user-select: none;
+    user-select: none
 }
 
-input[type='text'], input[type='number']{
+select {
+    cursor: pointer
+}
+
+input[type=number],input[type=text],select {
     height: 2rem;
     width: -webkit-fill-available;
     margin-top: .5rem;
@@ -52,161 +51,213 @@ input[type='text'], input[type='number']{
     color: var(--font-color);
     background-color: var(--background-color-lighter);
     border-radius: .4rem;
-    border: none;
-    outline: none;
-    text-align: center;
+    border: 0;
+    outline: 0;
+    text-align: center
 }
 
-input[type='number']::-webkit-outer-spin-button, input[type='number']::-webkit-inner-spin-button {
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button {
     margin: 0;
-    -webkit-appearance: none;
+    -webkit-appearance: none
 }
 
-.app-button{
+.app-button,.top-menu {
     height: var(--app-button-size);
+    border-radius: .4rem
+}
+
+.app-button {
     width: var(--app-button-size);
-    border-radius: .4rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: pointer
 }
 
-.app-button > img{
-    width: 80%;
-    height: 80%;
-}
-
-.app-button.red > img{
-    filter: var(--image-filter-red);
-}
-
-.app-button.green > img{
-    filter: var(--image-filter-green);
-}
-
-.app-button.font > img{
-    filter: var(--image-filter-font);
-}
-
-.app-button.disabled > img{
-    filter: var(--image-filter-lighter);
-}
-
-#open.disabled:hover > img, #game-mode.disabled:hover > img, .app-button.lighter > img{
-    filter: var(--image-filter-font);
-    opacity: .6;
-}
-
-#copy:hover, #apply:hover, #discard:hover{
-    background-color: var(--background-color-lighter);
-}
-
-#copy.disabled, #apply.disabled, #discard.disabled{
-    cursor: default;
-    pointer-events: none;
-}
-
-#copy:not(.disabled)>img:nth-child(1), #copy.disabled>img:nth-child(2){
-    display: none;
-}
-
-#copy:not(.disabled)>img:nth-child(2), #copy.disabled>img:nth-child(1){
-    display: block;
-}
-
-.top-menu{
+.top-menu {
     grid-column: span 2;
     grid-row: 1;
-    height: var(--app-button-size);
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 1fr;
-    border-radius: .4rem;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: 1fr
 }
 
-.top-menu > .app-button{
+.app-button>.button-icon,.app-button>img {
+    width: 80%;
+    height: 80%
+}
+
+.top-menu>.app-button {
     justify-self: center;
+    background-color: transparent
 }
 
-body > label{
+#copy>.button-icon::after,.top-menu>.app-button>.button-icon::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+    opacity: 1;
+    transition: all .2s ease-in-out
+}
+
+#open>.button-icon::before {
+    -webkit-mask-image: url(../images/open-mask.png);
+    mask-image: url(../images/open-mask.png)
+}
+
+#game-mode>.button-icon::before {
+    -webkit-mask-image: url(../images/game-mode-mask.png);
+    mask-image: url(../images/game-mode-mask.png)
+}
+
+#copy>.button-icon {
+    position: relative
+}
+
+#copy>.button-icon::before {
+    position: absolute;
+    -webkit-mask-image: url(../images/copy-mask-1.png);
+    mask-image: url(../images/copy-mask-1.png)
+}
+
+#copy>.button-icon::after {
+    position: absolute;
+    -webkit-mask-image: url(../images/copy-mask-2.png);
+    mask-image: url(../images/copy-mask-2.png)
+}
+
+#apply>.button-icon::before {
+    -webkit-mask-image: url(../images/apply-mask.png);
+    mask-image: url(../images/apply-mask.png)
+}
+
+#discard>.button-icon::before {
+    -webkit-mask-image: url(../images/discard-mask.png);
+    mask-image: url(../images/discard-mask.png)
+}
+
+#game-mode:not(.disabled)>.button-icon::before,#open:not(.disabled)>.button-icon::before {
+    background-color: var(--font-subcolor)
+}
+
+#game-mode.disabled:hover>.button-icon::before,#open.disabled:hover>.button-icon::before {
+    background-color: var(--font-subcolor);
+    opacity: .6
+}
+
+#copy:not(.disabled)>.button-icon::before {
+    background-color: var(--button-color-purple)
+}
+
+#copy:not(.disabled)>.button-icon::after {
+    background-color: var(--button-color-teal)
+}
+
+#apply:not(.disabled)>.button-icon::before {
+    background-color: var(--button-color-green)
+}
+
+#discard:not(.disabled)>.button-icon::before {
+    background-color: var(--button-color-red)
+}
+
+#apply.disabled,#copy.disabled,#discard.disabled {
+    pointer-events: none
+}
+
+#apply:not(.disabled):hover,#copy:not(.disabled):hover,#discard:not(.disabled):hover {
+    background-color: var(--background-color-lighter)
+}
+
+#copy.disabled>.button-icon::after,.top-menu>.app-button.disabled>.button-icon::before {
+    background-color: var(--background-color-lighter)
+}
+
+body>label {
     width: 100%;
     align-self: center;
-    text-align: center;
+    text-align: center
 }
 
-#settings-label{
+#settings-label {
     grid-row: 2;
-    grid-column: 1;
+    grid-column: 1
 }
 
-#tab-label{
+#tab-label {
     grid-row: 2;
-    grid-column: 2;
+    grid-column: 2
 }
 
-.navbar, .main{
+.main,.navbar {
     width: 100%;
     height: 100%;
     background-color: var(--background-color-primary);
-    border-radius: .5rem;
+    border-radius: .5rem
 }
 
-.navbar{
+.navbar {
     grid-column: 1;
     grid-row: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    text-align: center
 }
 
-.navbar > .app-button{
-    margin-top: .5rem;
+#apply,#copy,#discard,.navbar>.app-button {
+    transition: background-color .2s ease-in-out
 }
 
-.navbar > .app-button:last-of-type{
+.navbar>.app-button {
+    margin-top: .5rem
+}
+
+.navbar>.app-button:last-of-type {
     margin-top: auto;
-    margin-bottom: .5rem;
+    margin-bottom: .5rem
 }
 
-.navbar > .app-button:hover{
-    background-color: var(--background-color-lighter);
+.navbar>.app-button:hover {
+    background-color: var(--background-color-lighter)
 }
 
-.main{
+.main {
     grid-column: 2;
     grid-row: 3;
-    overflow: hidden;
+    overflow: hidden
 }
 
-.content-wrapper{
+.content-wrapper {
     height: calc(100% - 1rem);
     box-sizing: border-box;
-    margin: 0.5rem 0.5rem 0.5rem 1rem;
+    margin: .5rem .5rem .5rem 1rem;
     overflow: hidden;
-    position: relative;
+    position: relative
 }
 
-.tab{
+.tab {
     height: 100%;
     display: none;
     overflow: auto;
     position: relative;
-    padding-right: 0.5rem;
+    padding-right: .5rem
 }
 
-.tab.active{
-    display: block;
+.tab.active {
+    display: block
 }
 
 ::-webkit-scrollbar {
-    width: .5rem;
+    width: .5rem
 }
 
 ::-webkit-scrollbar-thumb {
     background: var(--background-color-lighter);
     background-clip: content-box;
-    border-radius: .5rem;
+    border-radius: .5rem
 }
