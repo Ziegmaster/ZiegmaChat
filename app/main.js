@@ -3,10 +3,10 @@ const windowStateKeeper = require('electron-window-state');
 const { readdir } = require('fs/promises');
 const path = require('path');
 const settings = require('./settings');
-const server = require('./server');
+const {startHttpServer, stopHttpServer} = require('./server');
 
 // START INTERNAL HTTP SERVER
-server.listen(settings.get('app.server.port'));
+startHttpServer(settings.get('app.server.port'));
 
 const iconPath = path.join(__dirname, 'favicon.ico');
 
@@ -36,7 +36,7 @@ const createMainWindow = () => {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
-  //mainWindow.removeMenu();
+  mainWindow.removeMenu();
   //Hide to tray instead of minimizing
   mainWindow.on('minimize', function (event) {
     event.preventDefault();
@@ -143,8 +143,8 @@ const setHandlers = () => {
     const widgetThemeSettings = settings.get(`app.widget.themes.${theme}`);
     settings.set(`app.widget.themes.${theme}`, { ...widgetThemeSettings, ...changedSettings.widget.themes[theme] });
     if (changedSettings.server.port) {
-      server.close();
-      server.listen(changedSettings.server.port);
+      stopHttpServer();
+      startHttpServer(changedSettings.server.port);
     }
     if (Object.keys(changedSettings.widget.general).length > 0 || Object.keys(changedSettings.widget.themes[theme]).length > 0) {
       chatWindow?.loadURL(getWidgetURL());
@@ -165,8 +165,8 @@ const setHandlers = () => {
     }).then(promise => {
       if (promise.response === 0) {
         settings.set('app', settings.get('defaults'));
-        server.close();
-        server.listen(settings.get('app.server.port'));
+        stopHttpServer();
+        startHttpServer(settings.get('app.server.port'));
         if (chatWindow) {
           chatWindow.destroy();
           createChatWindow();
