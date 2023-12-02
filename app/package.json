@@ -1,10 +1,10 @@
 {
   "name": "ziegmachat",
-  "version": "1.0.0",
-  "description": "A Streamer.bot websocket based chat application",
+  "version": "1.2.0",
+  "description": "Websocket based chat application for Streamer.bot",
   "main": "main.js",
   "scripts": {
-    "start": "electron . --no-sandbox"
+    "start": "electron . "
   },
   "repository": "https://github.com/TrueZiegmaster/ZiegmaChat",
   "keywords": [

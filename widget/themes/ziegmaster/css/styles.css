@@ -1,11 +1,9 @@
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
 
 :root {
-    /** Left: row Right: row-reverse */
-    /*--chat-align: row;*/
     --avatar-size: 2rem;
     --element-spacing: .6rem;
-    --message-padding: .7rem;
+    --message-padding: .4rem;
     --message-gap-bottom: .5rem;
     --message-background-color: rgba(0,0,0,0.96);
     --message-border-color: rgba(0,0,0,.6);
@@ -17,23 +15,22 @@
     --emote-size: 1rem;
     --emote-only-size: 1rem;
     --font-color: #fff;
-    /*--font-size: 32px;*/
     --font-family: "Source Sans Pro", sans-serif;
     --time-size: 0;
     --time-align: right;
     --animate-duration: .3s;
     --animate-delay: 0;
-    --grid-avatar-row: calc(var(--avatar-size) / 2);
+    --grid-avatar-row: calc(var(--avatar-size) / 2)
 }
 
-html, body{
+body,html {
     width: 100%;
     height: 100%;
     margin: 0 auto;
     padding: 0;
     font-family: var(--font-family);
     font-size: var(--font-size);
-    user-select: none;
+    user-select: none
 }
 
 #chat {
@@ -45,13 +42,17 @@ html, body{
     width: 100vw;
     justify-content: flex-end;
     margin: 0;
-    padding: 0;
+    padding: 0
 }
 
 #chat li {
     display: flex;
     margin-bottom: var(--message-gap-bottom);
-    flex-direction: var(--chat-align);
+    flex-direction: var(--chat-align)
+}
+
+.avatar img,.message {
+    border-radius: var(--message-border-radius)
 }
 
 .message {
@@ -61,84 +62,83 @@ html, body{
     grid-template-rows: var(--grid-avatar-row) var(--grid-avatar-row) auto;
     color: var(--font-color);
     background-color: var(--message-background-color);
-    border-radius: var(--message-border-radius);
     padding: var(--message-padding);
     box-sizing: border-box;
-    overflow-wrap: anywhere;
+    overflow-wrap: anywhere
 }
 
-.message::after{
+.message::after {
     content: "";
     display: block;
     position: absolute;
     box-sizing: border-box;
     z-index: 10000;
-    width: calc(100% - var(--message-border-size) * 2);
-    height: calc(100% - var(--message-border-size) * 2);
+    width: calc(100% - var(--message-border-size)*2);
+    height: calc(100% - var(--message-border-size)*2);
     margin: var(--message-border-size);
     border-radius: var(--message-border-size);
-    box-shadow: 0 0 0 var(--message-border-shadow) var(--message-border-color);
+    box-shadow: 0 0 0 var(--message-border-shadow) var(--message-border-color)
 }
 
 .avatar img {
-    width: var(--avatar-size);
-    border-radius: var(--message-border-radius);
+    width: var(--avatar-size)
 }
 
 .avatar {
     grid-column: 1;
-    grid-row: 1 / span 2;
+    grid-row: 1/span 2;
     display: flex;
     align-self: center;
-    align-items: center;
+    align-items: center
 }
 
-.badges{
-    grid-column: 2;
+.badges,.name {
     grid-row: 1;
+    align-items: center
+}
+
+.badges {
+    grid-column: 2;
     height: var(--badge-size);
     display: flex;
     flex-direction: row;
-    align-items: center;
-    margin-left: var(--element-spacing);
+    margin-left: var(--element-spacing)
 }
 
 .badges img {
     width: var(--badge-size);
-    margin-right: var(--element-spacing);
+    margin-right: var(--element-spacing)
 }
 
 .name {
     grid-column: 3;
-    grid-row: 1;
     height: var(--font-size);
     color: var(--userColor);
-    font-weight: bold;
-    display: inline-flex;
-    align-items: center;
+    font-weight: 700;
+    display: inline-flex
 }
 
-.content{
-    grid-column: 1 / span 3;
-    grid-row: 2 / span 2;
+.content {
+    grid-column: 1/span 3;
+    grid-row: 2/span 2;
     text-indent: calc(var(--avatar-size) + var(--element-spacing));
     width: 100%;
-    line-height: calc(var(--font-size) * 1.1);
+    line-height: calc(var(--font-size)*1.1)
 }
 
-.content > img{
-    vertical-align: middle;
+.content>img {
+    vertical-align: middle
 }
 
 .message .emote {
-    height: var(--emote-size);
+    height: var(--emote-size)
 }
 
 .emoteonly .message .emote {
-    height: var(--emote-only-size);
+    height: var(--emote-only-size)
 }
 
 .time {
     font-size: var(--time-size);
-    float: var(--time-align);
+    float: var(--time-align)
 }

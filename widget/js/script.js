@@ -28,14 +28,14 @@ window.addEventListener("load", (event) => {
 });
 
 /**
- * This will load all template,css files in theme/{{themename}}
+ * This will load all template,css files in themes/{{themename}}
  * Check console for errors if you theme doesn't work
  */
 function loadTemplates() {
     //  Loading message templates
     $("#templates").load(
-        `theme/${settings.template}/template.html`,
-        function(response, status, xhr) {
+        `themes/${settings.template}/template.html`,
+        function (response, status, xhr) {
             if (status == "error") {
                 let msg = "Sorry but there was an error: ";
                 //console.error(msg + xhr.status + " " + xhr.statusText);
@@ -43,7 +43,7 @@ function loadTemplates() {
             if (status === "success") {
                 // Loading template css
                 $("head").append(
-                    `<link rel="stylesheet" href="theme/${settings.template}/css/styles.css" type="text/css" />`
+                    `<link rel="stylesheet" href="themes/${settings.template}/css/styles.css" type="text/css" />`
                 );
 
                 template_twitch = document.querySelector("#message_twitch");
@@ -114,7 +114,7 @@ async function pushMessage(type, message) {
 
             break;
 
-            // Reward message from Twitch
+        // Reward message from Twitch
         case "reward":
             message.msgId = message.id;
             message.title = message.reward.title;
@@ -133,7 +133,7 @@ async function pushMessage(type, message) {
 
             break;
 
-            // Message from Youtube
+        // Message from Youtube
         case "message":
 
 
@@ -164,15 +164,15 @@ async function pushMessage(type, message) {
     }
 
     const msg = new Promise((resolve, reject) => {
-            // Note: This is to prevent a streamer.bot message to not disappear.
-            // - This could be a bug and will maybe be removed on a later date.
-            if (message.msgId == undefined) {
-                //console.debug("Message has no ID");
-                message.msgId = makeid(6);
-            }
+        // Note: This is to prevent a streamer.bot message to not disappear.
+        // - This could be a bug and will maybe be removed on a later date.
+        if (message.msgId == undefined) {
+            //console.debug("Message has no ID");
+            message.msgId = makeid(6);
+        }
 
-            resolve(getProfileImage(type, message));
-        })
+        resolve(getProfileImage(type, message));
+    })
         .then((avatar) => {
             //console.debug("Avatar: " + avatar);
             message.avatar = avatar;
@@ -186,7 +186,7 @@ async function pushMessage(type, message) {
         .then((msg) => {
             msg = renderMessage(type, msg);
 
-            if (msg){
+            if (msg) {
                 $("#chat").append(msg);
 
                 if (settings.animations.hidedelay > 0) {
@@ -198,7 +198,7 @@ async function pushMessage(type, message) {
         .then(() => {
             //Prevent clipping
             let currentHeight = 0;
-            $("#chat").children().each(function() {
+            $("#chat").children().each(function () {
                 currentHeight += $(this).outerHeight(true);
             });
 
@@ -212,7 +212,7 @@ async function pushMessage(type, message) {
 
 
                 $chatLine.addClass("animate__" + settings.animations.hideAnimation);
-                $chatLine.bind("animationend", function() {
+                $chatLine.bind("animationend", function () {
                     $(this).remove();
                 });
 
@@ -220,7 +220,7 @@ async function pushMessage(type, message) {
                 count++;
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             //console.error(error);
         });
 }
@@ -248,7 +248,7 @@ function renderMessage(platform, message = {}) {
         return replacedText;
     }
 
-    function email_check(inputText, string){
+    function email_check(inputText, string) {
         let replacedText, replacePattern;
 
         replacePattern = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -257,30 +257,30 @@ function renderMessage(platform, message = {}) {
         return replacedText;
     }
 
-    function replaceWithEmote(word){
+    function replaceWithEmote(word) {
         message.emotes.forEach((emote) => {
-            if (emote.name == word){
+            if (emote.name == word) {
                 word = `<img class="emote" src="${emote.imageUrl}">`;
             }
         });
         return word;
     }
 
-    message.message = words.some(function(word, n){
+    message.message = words.some(function (word, n) {
         word = replaceWithEmote(word);
         //Emote check
-        if (words[n] != word){
+        if (words[n] != word) {
             new_words.push(word);
             char_counter += 5;
         }
-        else{
-            let check = link_check(email_check(word, "[email]"), "[ссылка]");
+        else {
+            let check = link_check(email_check(word, "[email]"), "[link]");
             //Link|email check
-            if (word != check){
+            if (word != check) {
                 word = `<span style='color: #00FFFF'>${check}</span>`;
                 char_counter += 5;
             }
-            else if (word.length > 20){
+            else if (word.length > 20) {
                 contains_spam = true;
             }
             new_words.push(word);
@@ -288,7 +288,7 @@ function renderMessage(platform, message = {}) {
         return char_counter > settings.filter.characterLimit;
     }) ? new_words.join(" ") + " <span style='color: #00FFFF'>[...]</span>" : new_words.join(" ");
 
-    if (contains_spam){return}
+    if (contains_spam) { return }
 
     switch (platform) {
         case "chatmessage":
@@ -338,14 +338,14 @@ function removeMessage(msgId) {
     //console.log("Hide ID " + msgId + "in " + settings.animations.hidedelay);
 
     const msg = new Promise((resolve, reject) => {
-        delay(settings.animations.hidedelay).then(function() {
+        delay(settings.animations.hidedelay).then(function () {
             $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
-            $("#" + msgId).bind("animationend", function() {
+            $("#" + msgId).bind("animationend", function () {
                 $("#" + msgId).remove();
             });
             resolve();
         });
-    }).catch(function(error) {
+    }).catch(function (error) {
         //console.error(error);
     });
 }
@@ -454,12 +454,12 @@ function ClearChat() {
 
 // Helper Code
 function delay(t, v) {
-    return new Promise(function(resolve) {
+    return new Promise(function (resolve) {
         setTimeout(resolve.bind(null, v), t);
     });
 }
 
-function __debugMessages(){
+function __debugMessages() {
     let sub = false;
     let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
 
@@ -469,13 +469,13 @@ function __debugMessages(){
         avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/35c9d8fb-6dd6-4e26-bd28-ff37b316056a-profile_image-300x300.png",
         bits: 0,
         badges: [{
-                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
-                name: "broadcaster",
-            },
-            {
-                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/de6d9479-80dc-4d5a-99ab-8db5ee2ac1c9/3",
-                name: "subscriber",
-            },
+            imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
+            name: "broadcaster",
+        },
+        {
+            imageUrl: "https://static-cdn.jtvnw.net/badges/v1/de6d9479-80dc-4d5a-99ab-8db5ee2ac1c9/3",
+            name: "subscriber",
+        },
         ],
         channel: "ziegmaster",
         color: "#B33B19",
@@ -497,7 +497,7 @@ function __debugMessages(){
         time: "13:37",
     };
 
-    pushMessage('chatmessage', {...message, ...randomMessage()});
+    pushMessage('chatmessage', { ...message, ...randomMessage() });
 }
 
 // Debug Code
@@ -523,16 +523,16 @@ function randomMessage() {
 
     let msgs = [
         {
-            message : "Как дела?",
-            emotes : [],
+            message: "Heeey! How are you?",
+            emotes: [],
         },
         {
-            message : "Я НЕ ФРИК!!!",
-            emotes : [],
+            message: "Wassup m8???",
+            emotes: [],
         },
         {
-            message : "Svin Svin Svin",
-            emotes : [
+            message: "Svin Svin Svin",
+            emotes: [
                 {
                     name: "Svin",
                     type: "BTTVChannel",
@@ -551,12 +551,12 @@ function randomMessage() {
             ],
         },
         {
-            message : "Офай!",
-            emotes : [],
+            message: "Worst stream I've ever watched in my life :P",
+            emotes: [],
         },
         {
-            message : "Привет, хочу предложить зайти на этот сайт twitch.tv/ziegmaster это точно не скам BloodTrail",
-            emotes : [
+            message: "Hello, I would like to suggest you go to this website twitch.tv/ziegmaster, this is definitely not a scam BloodTrail",
+            emotes: [
                 {
                     name: "BloodTrail",
                     type: "Twitch",
@@ -565,8 +565,8 @@ function randomMessage() {
             ],
         },
         {
-            message : "Давай познакомимся, вот моя почта: freak@gmail.com AYAYALove",
-            emotes : [
+            message: "Let's be best friends, here's my email: freak@gmail.com AYAYALove",
+            emotes: [
                 {
                     name: "AYAYALove",
                     type: "BTTVChannel",
@@ -575,8 +575,8 @@ function randomMessage() {
             ],
         },
         {
-            message : "Сочинение на тему: \"Как я провел лето\". Да никак ziegmaClown ты что, и правда думал, что я напишу что-то настолько тупое!? Ты никому не нужен, смирись с этим BloodTrail",
-            emotes : [
+            message: "Essay on the topic: \"How I spent my summer\". No way ziegmaClown did you really think that I would write something so stupid!? No one needs you, get over it BloodTrail",
+            emotes: [
                 {
                     name: "ziegmaClown",
                     type: "Twitch",
@@ -590,8 +590,8 @@ function randomMessage() {
             ],
         },
         {
-            message : "Однажды я стану популярным PoroSad",
-            emotes : [
+            message: "One day I will become popular PoroSad",
+            emotes: [
                 {
                     name: "PoroSad",
                     type: "Twitch",
@@ -600,8 +600,8 @@ function randomMessage() {
             ],
         },
         {
-            message : "Он не знает мы не скажем BloodTrail Он не знает мы не скажем BloodTrail Он не знает мы не скажем BloodTrail Он не знает мы не скажем BloodTrail Он не знает мы не скажем BloodTrail Он не знает мы не скажем BloodTrail",
-            emotes : [
+            message: "He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail",
+            emotes: [
                 {
                     name: "BloodTrail",
                     type: "Twitch",

@@ -21,7 +21,7 @@ function bindEvents() {
         );
     };
 
-    ws.onmessage = async(event) => {
+    ws.onmessage = async (event) => {
         const wsdata = JSON.parse(event.data);
 
         if (wsdata.status == "ok" || wsdata.event.source == null) {
@@ -97,7 +97,7 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function() {
+    ws.onclose = function () {
         console.error("Connection failed!");
         setTimeout(connectws, 10000);
     };
