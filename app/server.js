@@ -79,13 +79,4 @@ const server = http.createServer((req, res) => {
     }
 });
 
-module.exports = {
-    startHttpServer: (port) => {
-        //At least try to host it on specified port to avoid app crashes
-        try {
-            server.listen(port);
-        }
-        catch { }
-    },
-    stopHttpServer: () => server.close()
-};
+module.exports = server;

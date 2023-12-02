@@ -3,10 +3,7 @@ const windowStateKeeper = require('electron-window-state');
 const { readdir } = require('fs/promises');
 const path = require('path');
 const settings = require('./settings');
-const {startHttpServer, stopHttpServer} = require('./server');
-
-// START INTERNAL HTTP SERVER
-startHttpServer(settings.get('app.server.port'));
+const server = require('./server');
 
 const iconPath = path.join(__dirname, 'favicon.ico');
 
@@ -90,6 +87,12 @@ const createChatWindow = () => {
 
 const setHandlers = () => {
 
+  process.on('uncaughtException', (error) => {
+    if (error.code == 'EADDRINUSE'){
+      /* Do something to let the user know that port is already in use */
+    }
+  });
+
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
   });
@@ -143,8 +146,8 @@ const setHandlers = () => {
     const widgetThemeSettings = settings.get(`app.widget.themes.${theme}`);
     settings.set(`app.widget.themes.${theme}`, { ...widgetThemeSettings, ...changedSettings.widget.themes[theme] });
     if (changedSettings.server.port) {
-      stopHttpServer();
-      startHttpServer(changedSettings.server.port);
+      server.close();
+      server.listen(changedSettings.server.port);
     }
     if (Object.keys(changedSettings.widget.general).length > 0 || Object.keys(changedSettings.widget.themes[theme]).length > 0) {
       chatWindow?.loadURL(getWidgetURL());
@@ -165,8 +168,8 @@ const setHandlers = () => {
     }).then(promise => {
       if (promise.response === 0) {
         settings.set('app', settings.get('defaults'));
-        stopHttpServer();
-        startHttpServer(settings.get('app.server.port'));
+        server.close();
+        server.listen(settings.get('app.server.port'));
         if (chatWindow) {
           chatWindow.destroy();
           createChatWindow();
@@ -188,7 +191,6 @@ const setHandlers = () => {
 
 // ELECTRON MAIN
 app.whenReady().then(() => {
-
   //Create state files to save windows' size and position on reload
   mainWindowState = windowStateKeeper({
     file: 'main.json',
@@ -230,4 +232,7 @@ app.whenReady().then(() => {
   tray.on('click', () => {
     mainWindow.show();
   });
+
+  // Start internal HTTP server
+  server.listen(settings.get('app.server.port'));
 });
