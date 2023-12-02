@@ -4,7 +4,7 @@
   "description": "Websocket based chat application for Streamer.bot",
   "main": "main.js",
   "scripts": {
-    "start": "electron . --no-sandbox"
+    "start": "electron . "
   },
   "repository": "https://github.com/TrueZiegmaster/ZiegmaChat",
   "keywords": [
