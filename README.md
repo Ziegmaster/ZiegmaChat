@@ -22,7 +22,7 @@ Navigate to **../%ZiegmaChat%/resources/widget/themes** and see what you can do.
 # Developing and building from source
 **Clone the project**
 > git clone https://github.com/TrueZiegmaster/ZiegmaChat  
-> cd ./Ziegmachat
+> cd ./ZiegmaChat
 
 **Install dependencies**
 > npm install
