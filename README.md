@@ -1,3 +1,5 @@
+<h1 align="center">For streamers by a streamer</h1>
+
 # About ZiegmaChat
 This program aims to improve the streaming experience. It independently hosts a chat widget that communicates with [Streamer.bot](https://streamer.bot/) via its websocket API. All you have to do to see your chat in OBS is copy the link and paste it as a browser source in your scene.  
 Navigate to the [widget directory](https://github.com/TrueZiegmaster/ZiegmaChat/tree/beta/widget) to see how to work with widget links and custom themes.
