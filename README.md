@@ -22,7 +22,8 @@ Navigate to **../%ZiegmaChat%/resources/widget/themes** and see what you can do.
 **Clone the project**
 ```console
 git clone https://github.com/TrueZiegmaster/ZiegmaChat  
-cd ./ZiegmaChat```
+cd ./ZiegmaChat
+```
 
 **Install dependencies**
 ```console
