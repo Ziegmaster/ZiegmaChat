@@ -2,6 +2,9 @@
 This program aims to improve the streaming experience. It independently hosts a chat widget that communicates with [Streamer.bot](https://streamer.bot/) via its websocket API. All you have to do to see your chat in OBS is copy the link and paste it as a browser source in your scene.  
 Navigate to the [widget directory](https://github.com/TrueZiegmaster/ZiegmaChat/tree/beta/widget) to see how to work with widget links and custom themes.
 
+# 🎮 Game mode
+ZiegmaChat has an extremely useful feature for streamers with only one screen. In this mode, a second program window is launched, which can be freely placed anywhere on the screen. After customizing its size and position, you can use a special switch to turn it into a gaming overlay.
+
 # Credits
 Thanks to [BlackyWhoElse](https://github.com/BlackyWhoElse/streamer.bot-actions) for the chat widget that was modified for correct usage in this project.
 
