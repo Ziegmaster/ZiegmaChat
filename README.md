@@ -29,21 +29,26 @@ Navigate to **../%ZiegmaChat%/resources/widget/themes** and see what you can do.
 
 **Install dependencies for WSL**
 > npm install --platform=win32  
+
 or  
 > npm_config_platform=win32 npm install
 
 **Test the application**
 > npm start  
+
 or  
 > npm run start
 
+**Install electron-packager if missing**
+> npm install -g electron-packager --save-dev
+
 **Building the application**  
-Install electron-packager if missing  
-> npm install -g electron-packager --save-dev  
 > npm run build-windows  
 > npm run build-all  
+
 Or use electron-packager manually if you need other options.  
-> electron-packager --help  
+
+> electron-packager --help
 
 # Credits
 Thanks to [**BlackyWhoElse**](https://github.com/BlackyWhoElse/streamer.bot-actions) for the chat widget that was modified for correct usage in this project.
