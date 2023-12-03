@@ -7,6 +7,10 @@ Navigate to the <a href="widget">widget directory</a>
 to see how to work with widget links and custom themes.
 </h3>
 
+<h2 align="center"><a href="USERGUIDE.md">Hey streamer! This user guide is special for you!</a></h2>
+
+# 
+
 # 🎮 Game mode
 ZiegmaChat has an extremely useful feature for streamers with only one screen. 
 In this mode, a second program window is launched, which can be freely placed anywhere on the screen. 
