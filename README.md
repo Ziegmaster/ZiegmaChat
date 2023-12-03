@@ -1,9 +1,9 @@
 # About ZiegmaChat
-This program aims to improve the streaming experience. It independently hosts a chat widget that communicates with [**Streamer.bot**](https://streamer.bot/) via its websocket API. All you have to do to see your chat in OBS is copy the link and paste it as a browser source in your scene.  
-Navigate to the [**widget directory**](https://github.com/TrueZiegmaster/ZiegmaChat/tree/beta/widget) to see how to work with widget links and custom themes.
+This program aims to improve the streaming experience. It independently hosts a chat widget that communicates with [Streamer.bot](https://streamer.bot/) via its websocket API. All you have to do to see your chat in OBS is copy the link and paste it as a browser source in your scene.  
+Navigate to the [widget directory](https://github.com/TrueZiegmaster/ZiegmaChat/tree/beta/widget) to see how to work with widget links and custom themes.
 
 # Credits
-Thanks to [**BlackyWhoElse**](https://github.com/BlackyWhoElse/streamer.bot-actions) for the chat widget that was modified for correct usage in this project.
+Thanks to [BlackyWhoElse](https://github.com/BlackyWhoElse/streamer.bot-actions) for the chat widget that was modified for correct usage in this project.
 
 <details>
 <summary>
