@@ -18,7 +18,13 @@ The list of general query parameters to specify the widget behavior.
 # Use your own CSS and templates
 Navigate to **../%ZiegmaChat%/resources/widget/themes** and see what you can do.
 
+<details>
+<summary>
+
 # Developing and building from source
+
+</summary>
+
 **Clone the project**
 ```console
 git clone https://github.com/TrueZiegmaster/ZiegmaChat  
@@ -65,6 +71,7 @@ npm run build-all
 ```console
 electron-packager --help
 ```
+</details>
 
 # Credits
 Thanks to [**BlackyWhoElse**](https://github.com/BlackyWhoElse/streamer.bot-actions) for the chat widget that was modified for correct usage in this project.
