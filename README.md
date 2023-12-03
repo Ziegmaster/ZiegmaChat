@@ -3,7 +3,7 @@
 This program aims to improve the streaming experience. It independently hosts a chat widget that communicates with 
 <a href="https://streamer.bot/">Streamer.Bot</a> via its websocket API. 
 All you have to do to see your chat in OBS is copy the link and paste it as a browser source in your scene. 
-Navigate to the <a href="https://github.com/TrueZiegmaster/ZiegmaChat/tree/beta/widget">widget directory</a> 
+Navigate to the <a href="./widget">widget directory</a> 
 to see how to work with widget links and custom themes.
 </h3>
 
@@ -38,7 +38,7 @@ npm install
 
 **Install dependencies for WSL**
 ```console
-install --platform=win32
+npm install --platform=win32
 ```
 ```console
 npm_config_platform=win32 npm install
@@ -50,6 +50,9 @@ npm start
 ```
 ```console
 npm run start
+```
+```console
+npm run wsl
 ```
 
 **Install electron-packager if missing**

@@ -18,7 +18,7 @@ const checkVersion = async () => {
       normalizeAccessKeys: true,
       icon: iconPath,
     }).then(promise => {
-      //settings.set('version') = 
+      settings.set('version', currentVersion);
       if (promise.response === 0) {
         settings.set('app', settings.get('defaults'));
       }
@@ -211,10 +211,12 @@ app.setHandlers = function(){
   });
 
   ipcMain.handle('toggle-game-mode', () => {
-    this.chatWindow?.destroy();
     const gameMode = !settings.get('app.widget.gameMode');
     settings.set('app.widget.gameMode', gameMode);
-    this.createChatWindow();
+    if (this.chatWindow){
+      this.chatWindow.destroy();
+      this.createChatWindow();
+    }
     return gameMode;
   });
 }
