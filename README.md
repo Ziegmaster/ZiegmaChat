@@ -42,12 +42,11 @@ or
 **Install electron-packager if missing**
 > npm install -g electron-packager --save-dev
 
-**Building the application**  
+**Building the application**
 > npm run build-windows  
 > npm run build-all  
 
-Or use electron-packager manually if you need other options.  
-
+**Use electron-packager manually if you need other options.**
 > electron-packager --help
 
 # Credits
