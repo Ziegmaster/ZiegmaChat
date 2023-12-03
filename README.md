@@ -37,8 +37,8 @@ or
 or  
 > npm run start
 
-**Building the application**
-Install electron-packager if missing
+**Building the application**  
+Install electron-packager if missing  
 > npm install -g electron-packager --save-dev  
 > npm run build-windows  
 > npm run build-all  
