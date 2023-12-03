@@ -29,12 +29,12 @@ Navigate to **../%ZiegmaChat%/resources/widget/themes** and see what you can do.
 
 **Install dependencies for WSL**
 > npm install --platform=win32  
-or
+or  
 > npm_config_platform=win32 npm install
 
 **Test the application**
 > npm start  
-or
+or  
 > npm run start
 
 **Building the application**
@@ -42,7 +42,7 @@ Install electron-packager if missing
 > npm install -g electron-packager --save-dev  
 > npm run build-windows  
 > npm run build-all  
-Or use electron-packager manually if you need other options.
+Or use electron-packager manually if you need other options.  
 > electron-packager --help  
 
 # Credits
