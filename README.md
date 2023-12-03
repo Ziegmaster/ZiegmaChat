@@ -3,7 +3,7 @@
 This program aims to improve the streaming experience. It independently hosts a chat widget that communicates with 
 <a href="https://streamer.bot/">Streamer.Bot</a> via its websocket API. 
 All you have to do to see your chat in OBS is copy the link and paste it as a browser source in your scene. 
-Navigate to the <a href="./widget">widget directory</a> 
+Navigate to the <a href="widget">widget directory</a> 
 to see how to work with widget links and custom themes.
 </h3>
 
