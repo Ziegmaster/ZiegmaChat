@@ -1,7 +1,6 @@
-# ZiegmaChat
-Websocket based chat application for Streamer.bot.  
-Built with Electron.  
-Ready to use for Twitch streamers.  
+# About ZiegmaChat
+This program aims to improve the streaming experience. It independently hosts a chat widget that communicates with Streamer.bot via its websocket API. All you have to do to see your chat in OBS is copy the link and paste it as a browser source in your scene.  
+Navigate to the [**widget directory**](https://github.com/TrueZiegmaster/ZiegmaChat/tree/beta/widget) to see how to work with widget links and custom themes.
 
 # Export widget URL
 The list of general query parameters to specify the widget behavior.
@@ -21,11 +20,14 @@ Navigate to **../%ZiegmaChat%/resources/widget/themes** and see what you can do.
 
 # Developing and building from source
 **Clone the project**
-> git clone https://github.com/TrueZiegmaster/ZiegmaChat  
-> cd ./ZiegmaChat
+```console
+git clone https://github.com/TrueZiegmaster/ZiegmaChat  
+cd ./ZiegmaChat```
 
 **Install dependencies**
-> npm install
+```console
+npm install
+```
 
 **Install dependencies for WSL**
 > npm install --platform=win32  
