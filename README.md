@@ -33,26 +33,38 @@ npm install
 ```
 
 **Install dependencies for WSL**
-> npm install --platform=win32  
-
-or  
-> npm_config_platform=win32 npm install
+```console
+install --platform=win32
+```
+```console
+npm_config_platform=win32 npm install
+```
 
 **Test the application**
-> npm start  
-
-or  
-> npm run start
+```console
+npm start
+```
+```console
+npm run start
+```
 
 **Install electron-packager if missing**
-> npm install -g electron-packager --save-dev
+```console
+npm install -g electron-packager --save-dev
+```
 
 **Building the application**
-> npm run build-windows  
-> npm run build-all  
+```console
+npm run build-windows
+```
+```console
+npm run build-all
+```
 
 **Use electron-packager manually if you need other options.**
-> electron-packager --help
+```console
+electron-packager --help
+```
 
 # Credits
 Thanks to [**BlackyWhoElse**](https://github.com/BlackyWhoElse/streamer.bot-actions) for the chat widget that was modified for correct usage in this project.
