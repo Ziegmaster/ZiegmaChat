@@ -1,11 +1,11 @@
 <h1 align="center">For streamers by a streamer</h1>
-<p align="center">
+<h3 align="center">
 This program aims to improve the streaming experience. It independently hosts a chat widget that communicates with 
 <a href="https://streamer.bot/">Streamer.Bot</a> via its websocket API. 
 All you have to do to see your chat in OBS is copy the link and paste it as a browser source in your scene. 
 Navigate to the <a href="https://github.com/TrueZiegmaster/ZiegmaChat/tree/beta/widget">widget directory</a> 
 to see how to work with widget links and custom themes.
-</p>
+</h3>
 
 # 🎮 Game mode
 ZiegmaChat has an extremely useful feature for streamers with only one screen. 
