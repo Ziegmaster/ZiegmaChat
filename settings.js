@@ -1,4 +1,7 @@
 const Store = require('electron-store');
+const windowStateKeeper = require('electron-window-state');
+
+const iconPath = `${__dirname}/favicon.ico`;
 
 const settings = new Store();
 
@@ -27,4 +30,19 @@ settings.set('defaults', {
 
 if (!settings.get('app')) settings.set('app', settings.get('defaults'));
 
-module.exports = settings;
+module.exports = {
+    iconPath,
+    settings,
+    mainWindowState : () => {
+        return windowStateKeeper({
+            file: 'main.json',
+        });
+    },
+    chatWindowState : () => {
+        return windowStateKeeper({
+            file: 'chat.json',
+            defaultWidth: 800,
+            defaultHeight: 600,
+        });
+    }
+};

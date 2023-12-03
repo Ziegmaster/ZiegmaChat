@@ -19,9 +19,29 @@ The list of general query parameters to specify the widget behavior.
 # Use your own CSS and templates
 Navigate to **../%ZiegmaChat%/resources/widget/themes** and see what you can do.
 
-# Building from source
-electron-packager ./%PATH_TO_APP_FOLDER% ZiegmaChat --platform=win32 --arch=x64 --icon=./%PATH_TO_APP_FOLDER%/favicon.ico
-> Note: widget directory must be placed inside **%YOUR_BUILD%/resources**
+# Developing and building from source
+**Clone the project**
+> git clone https://github.com/TrueZiegmaster/ZiegmaChat
+> cd ./Ziegmachat
+
+**Install dependencies**
+> npm install
+
+**Install dependencies for WSL**
+> npm install --platform=win32
+or
+> npm_config_platform=win32 npm install
+
+**Test the application**
+> npm start
+or
+> npm run start
+
+**Building the application**
+> npm run build-windows
+> npm run build-all
+Or use electron-packager manually if you need other options.
+> electron-packager --help
 
 # Credits
 Thanks to [**BlackyWhoElse**](https://github.com/BlackyWhoElse/streamer.bot-actions) for the chat widget that was modified for correct usage in this project.

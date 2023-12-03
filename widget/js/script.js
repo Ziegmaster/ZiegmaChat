@@ -32,9 +32,10 @@ window.addEventListener("load", (event) => {
  * Check console for errors if you theme doesn't work
  */
 function loadTemplates() {
+    const encodedTemplate = encodeURIComponent(settings.template);
     //  Loading message templates
     $("#templates").load(
-        `themes/${settings.template}/template.html`,
+        `themes/${encodedTemplate}/template.html`,
         function (response, status, xhr) {
             if (status == "error") {
                 let msg = "Sorry but there was an error: ";
@@ -43,7 +44,7 @@ function loadTemplates() {
             if (status === "success") {
                 // Loading template css
                 $("head").append(
-                    `<link rel="stylesheet" href="themes/${settings.template}/css/styles.css" type="text/css" />`
+                    `<link rel="stylesheet" href="themes/${encodedTemplate}/css/styles.css" type="text/css" />`
                 );
 
                 template_twitch = document.querySelector("#message_twitch");
