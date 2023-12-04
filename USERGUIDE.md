@@ -96,7 +96,6 @@ ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 > ✅  
 > You can now click the "Copy widget URL" button and paste it into your browser or into OBS browser source.
 
-> ✨  
-> ENJOY!!!
+✨ **ENJOY!!!** ✨
 
 </details>
