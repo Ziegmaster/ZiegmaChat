@@ -13,7 +13,8 @@ to see how to work with widget links and custom themes.
 ZiegmaChat has an extremely useful feature for streamers with only one screen. 
 In this mode, a second program window is launched, which can be freely placed anywhere on the screen. 
 After customizing its size and position, you can use a special switch to turn it into a gaming overlay.
- 
+
+> [!NOTE]  
 > There are games that force themselves to always be on top of everything. It is recommended to play them in windowed mode to see the overlay.
 
 # 👍 Credits
