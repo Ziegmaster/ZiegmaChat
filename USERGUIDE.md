@@ -10,8 +10,8 @@
 
 </summary>
 
-Your first step will be to install the program if you haven't already. To do this, go to [releases](https://github.com/TrueZiegmaster/ZiegmaChat/releases) and download the latest one, all the coolest and most amazing features (and bugs too :P) are always in the latest versions, try to always be on trend with ZiegmaChat!  
-After you have installed the .zip archive, unzip it somewhere and you are done!
+**Your first step will be to install the program if you haven't already. To do this, go to [releases](https://github.com/TrueZiegmaster/ZiegmaChat/releases) and download the latest one, all the coolest and most amazing features (and bugs too :P) are always in the latest versions, try to always be on trend with ZiegmaChat!  
+After you have installed the .zip archive, unzip it somewhere and you are done!**
 
 </details>
 
