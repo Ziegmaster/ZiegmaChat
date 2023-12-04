@@ -24,16 +24,16 @@ Your first step will be to install the program if you haven't already. To do thi
 
 After you have completed the installation and successfully launched the program, Its Majesty, the user interface, appears before your eyes!
 
-![User interface](.github/images/main-window.png)
+<img src=".github/images/main-window.png"/>
 
 The tables below will tell you what each button in each group does.
 
 | **Number** | **Name** | **Description** |
 | ------ | ------ | ------ |
-| $${\color{green}1}$$ | **[bool]** values | Enables "Debug mode". Allows you to test the application without using a real chat. |
-| $${\color{green}2}$$ | **[int]** values | Debug messages interval in miliseconds (1000 = 1 sec). |
-| $${\color{green}3}$$ | 8080 | Websocket port to connect to Streamer.bot |
-| $${\color{green}4}$$ | ziegmaster | Name of theme directory inside [themes directory](themes) |
-| $${\color{green}5}$$ | 150 | Approximate limit for trimming a message that is too long. |
+| $${\color{green}1}$$ | Toggle visibility | Shows/Hides draggable chatbox. |
+| $${\color{green}2}$$ | Toggle game mode | Enables/Disables the overlay mode for the chatbox when it's visible. |
+| $${\color{green}3}$$ | Copy widget URL | Click and get the URL to your clipboard. (Use it in a browser to test or make a browser source in OBS) |
+| $${\color{green}4}$$ | Apply changes | Save all changes you have made. |
+| $${\color{green}5}$$ | Discard changes | Discard all changes. Nothing else would happen, you're safe! |
 
 </details>
