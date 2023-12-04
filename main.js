@@ -31,7 +31,8 @@ const getWidgetURL = () => {
   const s = settings.get('app');
   const generalQueryParams = new URLSearchParams(s.widget.general).toString();
   const themeQueryParams = new URLSearchParams(s.widget.themes[s.widget.general['theme']]).toString();
-  return `http://localhost:${s.server.port}/?${generalQueryParams}&${themeQueryParams}`;
+  const finalQP = {...generalQueryParams, ...themeQueryParams};
+  return `http://localhost:${s.server.port}/?${finalQP}`;
 };
 
 // MAIN WINDOW
@@ -176,8 +177,8 @@ app.setHandlers = function(){
     const widgetThemeSettings = settings.get(`app.widget.themes.${theme}`);
     settings.set(`app.widget.themes.${theme}`, { ...widgetThemeSettings, ...changedSettings.widget.themes[theme] });
     if (changedSettings.server.port) {
-      server.close();
-      server.listen(changedSettings.server.port);
+      this.httpServer.close();
+      this.httpServer = server.listen(changedSettings.server.port);
     }
     if (Object.keys(changedSettings.widget.general).length > 0 || Object.keys(changedSettings.widget.themes[theme]).length > 0) {
       this.chatWindow?.loadURL(getWidgetURL());
@@ -198,8 +199,8 @@ app.setHandlers = function(){
     }).then(promise => {
       if (promise.response === 0) {
         settings.set('app', settings.get('defaults'));
-        server.close();
-        server.listen(settings.get('app.server.port'));
+        this.httpServer.close();
+        this.httpServer = server.listen(settings.get('app.server.port'));
         if (this.chatWindow) {
           this.chatWindow.destroy();
           this.createChatWindow();
@@ -258,5 +259,5 @@ app.whenReady().then(async () => {
   app.tray.setContextMenu(contextMenu);
 
   // Start internal HTTP server
-  server.listen(settings.get('app.server.port'));
+  app.httpServer = server.listen(settings.get('app.server.port'));
 });
