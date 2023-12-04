@@ -29,9 +29,7 @@ const checkVersion = async () => {
 // GENERATE WIDGET URL FOR FURTHER USAGE AND EXPORT
 const getWidgetURL = () => {
   const s = settings.get('app');
-  const generalQueryParams = new URLSearchParams(s.widget.general).toString();
-  const themeQueryParams = new URLSearchParams(s.widget.themes[s.widget.general['theme']]).toString();
-  const finalQP = {...generalQueryParams, ...themeQueryParams};
+  const finalQP = new URLSearchParams({...s.widget.general, ...s.widget.themes[s.widget.general['theme']]}).toString();
   return `http://localhost:${s.server.port}/?${finalQP}`;
 };
 
