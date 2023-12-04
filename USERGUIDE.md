@@ -23,7 +23,9 @@ After you have installed the .zip archive, unzip it somewhere and you are done!
 
 </summary>
 
-**After you have completed the installation and successfully launched the program, Its Majesty, the ![user interface](.github/images/main-window.png), appears before your eyes!**
+**After you have completed the installation and successfully launched the program, Its Majesty, the, appears before your eyes!**
+
+![user interface](.github/images/main-window.png)
 
 ${\Large\text{\color[rgb]{0,1,0}Green \ section}}$
 
