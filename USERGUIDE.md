@@ -24,7 +24,7 @@ Your first step will be to install the program if you haven't already. To do thi
 
 After you have completed the installation and successfully launched the program, Its Majesty, the user interface, appears before your eyes!
 
-![User interface](./.github/images/main-window.png)
+![](./.github/images/main-window.png)
 
 The tables below will tell you what each button in each group does.
 
