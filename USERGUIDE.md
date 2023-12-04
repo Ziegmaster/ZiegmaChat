@@ -1,5 +1,3 @@
-![UI](.github/images/main-window.png)
-
 <h1 align="center">ZiegmaChat user guide</h1>
 
 **Greetings, streamer! Here you will find brief instructions on how to use the program. It's easier than it seems, let's get started!**
@@ -17,13 +15,7 @@ After you have installed the .zip archive, unzip it somewhere and you are done!
 
 </details>
 
-<details>
-
-<summary>
-
 # User interface and application features
-
-</summary>
 
 **After you have completed the installation and successfully launched the program, Its Majesty, the USER INTERFACE, appears before your eyes!**
 
@@ -53,15 +45,7 @@ ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 | ------ | ------ | ------ |
 | $${\Large\text{\color[rgb]{1,0,0}1}}$$ | Reset to dafults | Restore the default settings if something went wrong or if you just want that. |
 
-</details>
-
-<details>
-
-<summary>
-
 # Streamer.bot & OBS websocket
-
-</summary>
 
 **The trick to make everything work is to follow instructions below. Good luck with that!**
 
@@ -101,5 +85,3 @@ ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 > You can now click the "Copy widget URL" button and paste it into your browser or into OBS browser source.
 
 ✨ **ENJOY!!!** ✨
-
-</details>
