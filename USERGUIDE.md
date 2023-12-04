@@ -28,5 +28,6 @@ After you have completed the installation and successfully launched the program,
 
 Let's look at the top row of buttons.
 
-<b color="green">1</b>
+$${\color{green}1}$$
+
 </details>
