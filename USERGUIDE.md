@@ -25,7 +25,7 @@ After you have installed the .zip archive, unzip it somewhere and you are done!
 
 **After you have completed the installation and successfully launched the program, Its Majesty, the, appears before your eyes!**
 
-<img src=".github/images/main-window.png" width="50%" height="50%">
+<img src="/.github/images/main-window.png" width="50%" height="50%">
 
 ${\Large\text{\color[rgb]{0,1,0}Green \ section}}$
 
