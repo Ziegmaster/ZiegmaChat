@@ -59,7 +59,7 @@ ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 
 </summary>
 
-> [!TIP]  
+> **TIP**
 > The trick to make everything work is to follow instructions below. Good luck with that!
 
 # **OBS**
