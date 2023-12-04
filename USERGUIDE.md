@@ -59,7 +59,7 @@ ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 
 </summary>
 
-> **TIP**  
+>⚡  
 > The trick to make everything work is to follow instructions below. Good luck with that!
 
 # **OBS**
@@ -71,7 +71,7 @@ ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 5. Set the password and remember or copy it.
 6. Press **"Apply"** and then **OK**.
 
-> [!NOTE]  
+>⚡  
 > After that OBS can accept requests from Streamer.bot
 
 # **Streamer.bot**
@@ -85,7 +85,7 @@ ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 7. Enable auto start.
 8. Set the port (Not the same as previous one! e.g, 8080. If it's in use > try any other.)
 
-> [!NOTE]  
+>⚡  
 > After that Streamer.bot can connect to OBS and accept requests from ZiegmaChat
 
 # **ZiegmaChat**
@@ -94,10 +94,10 @@ ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 2. Set the same port that you've set in Streamer.bot websocket server.
 3. Press **Apply changes**.
 
-> [!TIP]  
+>⚡  
 > You can now click the "Copy widget URL" button and paste it into your browser or into OBS browser source.
 
-> [!IMPORTANT]  
+> ✅  
 > ENJOY!!!
 
 </details>
