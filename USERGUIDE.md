@@ -27,4 +27,6 @@ After you have completed the installation and successfully launched the program,
 ![User interface](.github/images/main-window.png)
 
 Let's look at the top row of buttons.
+
+<b color="green">1</b>
 </details>
