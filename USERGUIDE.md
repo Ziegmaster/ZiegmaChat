@@ -25,7 +25,7 @@ After you have installed the .zip archive, unzip it somewhere and you are done!
 
 **After you have completed the installation and successfully launched the program, Its Majesty, the [user interface](.github/images/main-window.png), appears before your eyes!**
 
-$${\Large\text\color[rgb]{0,1,0}Green section}$$
+$${\Large\text{\color[rgb]{0,1,0}Green \ section}}$$
 
 | **Number** | **Name** | **Description** |
 | ------ | ------ | ------ |
