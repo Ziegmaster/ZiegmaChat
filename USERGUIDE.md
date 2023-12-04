@@ -23,7 +23,7 @@ After you have installed the .zip archive, unzip it somewhere and you are done!
 
 </summary>
 
-![UI](./.github/images/main-window.png)
+![UI](.github/images/main-window.png)
 
 **After you have completed the installation and successfully launched the program, Its Majesty, the, appears before your eyes!**
 
