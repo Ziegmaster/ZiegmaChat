@@ -30,10 +30,10 @@ The tables below will tell you what each button in each group does.
 
 | **Number** | **Name** | **Description** |
 | ------ | ------ | ------ |
-| $${\Large\color[rgb]{0,255,0}1}$$ | Toggle visibility | Shows/Hides draggable chatbox. |
-| $${\Large\color[rgb]{0,255,0}2}$$ | Toggle game mode | Enables/Disables the overlay mode for the chatbox when it's visible. |
-| $${\Large\color[rgb]{0,255,0}3}$$ | Copy widget URL | Click and get the URL to your clipboard. (Use it in a browser to test or make a browser source in OBS) |
-| $${\Large\color[rgb]{0,255,0}4}$$ | Apply changes | Save all changes you have made. |
-| $${\Large\color[rgb]{0,255,0}5}$$ | Discard changes | Discard all changes. Nothing else would happen, you're safe! |
+| $${\Large\color[rgb]{0,1,0}1}$$ | Toggle visibility | Shows/Hides draggable chatbox. |
+| $${\Large\color[rgb]{0,1,0}2}$$ | Toggle game mode | Enables/Disables the overlay mode for the chatbox when it's visible. |
+| $${\Large\color[rgb]{0,1,0}3}$$ | Copy widget URL | Click and get the URL to your clipboard. (Use it in a browser to test or make a browser source in OBS) |
+| $${\Large\color[rgb]{0,1,0}4}$$ | Apply changes | Save all changes you have made. |
+| $${\Large\color[rgb]{0,1,0}5}$$ | Discard changes | Discard all changes. Nothing else would happen, you're safe! |
 
 </details>
