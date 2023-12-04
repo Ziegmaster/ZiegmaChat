@@ -1,8 +1,6 @@
 <h1 align="center">ZiegmaChat user guide</h1>
 
-<h3 align="center">
-Greetings, streamer! Here you will find brief instructions on how to use the program. It's easier than it seems, let's get started!
-</h3>
+**Greetings, streamer! Here you will find brief instructions on how to use the program. It's easier than it seems, let's get started!**
 
 <details>
 
