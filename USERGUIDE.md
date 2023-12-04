@@ -26,8 +26,14 @@ After you have completed the installation and successfully launched the program,
 
 ![User interface](.github/images/main-window.png)
 
-Let's look at the top row of buttons.
+The tables below will tell you what each button in each group does.
 
-$${\color{green}1}$$
+| **Number** | **Name** | **Description** |
+| ------ | ------ | ------ |
+| $${\color{green}1}$$ | **[bool]** values | Enables "Debug mode". Allows you to test the application without using a real chat. |
+| $${\color{green}2}$$ | **[int]** values | Debug messages interval in miliseconds (1000 = 1 sec). |
+| $${\color{green}3}$$ | 8080 | Websocket port to connect to Streamer.bot |
+| $${\color{green}4}$$ | ziegmaster | Name of theme directory inside [themes directory](themes) |
+| $${\color{green}5}$$ | 150 | Approximate limit for trimming a message that is too long. |
 
 </details>
