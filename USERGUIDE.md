@@ -25,7 +25,7 @@ Your first step will be to install the program if you haven't already. To do thi
 After you have completed the installation and successfully launched the program, Its Majesty, the user interface, appears before your eyes!
 
 
-![User interface](./.github/images/main-window.png)
+# ![User interface](./.github/images/main-window.png)
 
 
 $${\Large\color[rgb]{0,1,0}Green section}$$
