@@ -24,16 +24,18 @@ Your first step will be to install the program if you haven't already. To do thi
 
 After you have completed the installation and successfully launched the program, Its Majesty, the user interface, appears before your eyes!
 
-<img src=".github/images/main-window.png"/>
+
+![User interface](.github/images/main-window.png)
+
 
 The tables below will tell you what each button in each group does.
 
 | **Number** | **Name** | **Description** |
 | ------ | ------ | ------ |
-| $${\color{green}1}$$ | Toggle visibility | Shows/Hides draggable chatbox. |
-| $${\color{green}2}$$ | Toggle game mode | Enables/Disables the overlay mode for the chatbox when it's visible. |
-| $${\color{green}3}$$ | Copy widget URL | Click and get the URL to your clipboard. (Use it in a browser to test or make a browser source in OBS) |
-| $${\color{green}4}$$ | Apply changes | Save all changes you have made. |
-| $${\color{green}5}$$ | Discard changes | Discard all changes. Nothing else would happen, you're safe! |
+| **$${\color{green}1}$$** | Toggle visibility | Shows/Hides draggable chatbox. |
+| **$${\color{green}2}$$** | Toggle game mode | Enables/Disables the overlay mode for the chatbox when it's visible. |
+| **$${\color{green}3}$$** | Copy widget URL | Click and get the URL to your clipboard. (Use it in a browser to test or make a browser source in OBS) |
+| **$${\color{green}4}$$** | Apply changes | Save all changes you have made. |
+| **$${\color{green}5}$$** | Discard changes | Discard all changes. Nothing else would happen, you're safe! |
 
 </details>
