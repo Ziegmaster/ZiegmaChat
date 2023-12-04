@@ -6,8 +6,8 @@
   "scripts": {
     "start": "electron .",
     "wsl": "electron . --no-sandbox",
-    "build-all": "electron-packager . ZiegmaChat --icon=./favicon.ico --all --out=./../../",
-    "build-windows": "electron-packager . ZiegmaChat --icon=./favicon.ico --platform=win32 --arch=x64 --out=./../../"
+    "build-all": "electron-packager . ZiegmaChat --icon=./favicon.ico --all --out=./../",
+    "build-windows": "electron-packager . ZiegmaChat --icon=./favicon.ico --platform=win32 --arch=x64 --out=./../"
   },
   "repository": "https://github.com/TrueZiegmaster/ZiegmaChat",
   "keywords": [
