@@ -37,7 +37,7 @@ ${\Large\text{\color[rgb]{0,0,1}Blue \ section}}$
 | ------ | ------ | ------ |
 | $${\Large\text{\color[rgb]{0,0,1}1}}$$ | General settings tab | General settings are used by all themes, they are global. |
 | $${\Large\text{\color[rgb]{0,0,1}2}}$$ | Theme settings tab | Theme settings work only for the current selected theme. (The list of settings is determined by the theme author.) |
-| $${\Large\text{\color[rgb]{0,0,1}3}}$$ | Streamer.bot settings tab | This tab is needed to configure the connection to Streamer.bot |
+| $${\Large\text{\color[rgb]{0,0,1}3}}$$ | Streamer.bot settings tab | This tab is needed to configure the connection to Streamer.bot. |
 
 ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 
@@ -59,7 +59,7 @@ ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 6. Press **"Apply"** and then **OK**.
 
 > ✅  
-> After that OBS can accept requests from Streamer.bot
+> After that OBS can accept requests from Streamer.bot!
 
 # **Streamer.bot**
 
@@ -73,7 +73,7 @@ ${\Large\text{\color[rgb]{1,0,0}Red \ section}}$
 8. Set the port (Not the same as previous one! e.g, 8080. If it's in use > try any other.)
 
 > ✅   
-> After that Streamer.bot can connect to OBS and accept requests from ZiegmaChat
+> After that Streamer.bot can connect to OBS and accept requests from ZiegmaChat!
 
 # **ZiegmaChat**
 
