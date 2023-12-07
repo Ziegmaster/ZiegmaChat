@@ -5,46 +5,45 @@
  ***************************************************/
 
 // General Variables
-let ws;
-let dev;
-let template_twitch;
-let template_youtube;
-let template_reward;
+var ws;
+var dev;
+var template_twitch;
+var template_youtube;
+var template_reward;
 
 /**
  * Storing avatars that have been called to save api calls
  * username: imageURL
  */
-let avatars = new Map();
+var avatars = new Map();
 
 window.addEventListener("load", (event) => {
     loadTemplates();
     connectws();
 
     if (settings.debug.enabled) {
-        //console.debug("Debug mode is enabled");
+        console.debug("Debug mode is enabled");
         debugMessages();
     }
 });
 
 /**
- * This will load all template,css files in themes/{{themename}}
+ * This will load all template,css files in theme/{{themename}}
  * Check console for errors if you theme doesn't work
  */
 function loadTemplates() {
-    const encodedTemplate = encodeURIComponent(settings.template);
     //  Loading message templates
     $("#templates").load(
-        `themes/${encodedTemplate}/template.html`,
+        `themes/${settings.template}/template.html`,
         function (response, status, xhr) {
             if (status == "error") {
-                let msg = "Sorry but there was an error: ";
-                //console.error(msg + xhr.status + " " + xhr.statusText);
+                var msg = "Sorry but there was an error: ";
+                console.error(msg + xhr.status + " " + xhr.statusText);
             }
             if (status === "success") {
                 // Loading template css
                 $("head").append(
-                    `<link rel="stylesheet" href="themes/${encodedTemplate}/css/styles.css" type="text/css" />`
+                    `<link rel="stylesheet" href="themes/${settings.template}/css/styles.css" type="text/css" />`
                 );
 
                 template_twitch = document.querySelector("#message_twitch");
@@ -73,7 +72,7 @@ function loadTemplates() {
 async function pushMessage(type, message) {
 
     // Adding time variable
-    let today = new Date();
+    var today = new Date();
     message.time = today.getHours() + ":" + String(today.getMinutes()).padStart(2, "0");
 
     // Mapping for special types
@@ -141,7 +140,7 @@ async function pushMessage(type, message) {
             // Adding default classes
             message.classes = ["msg"];
 
-            message.msgId = message.eventId;
+            message.msgId = message.messageId;
             message.displayName = message.user.name;
             message.userId = message.user.id;
 
@@ -168,62 +167,118 @@ async function pushMessage(type, message) {
         // Note: This is to prevent a streamer.bot message to not disappear.
         // - This could be a bug and will maybe be removed on a later date.
         if (message.msgId == undefined) {
-            //console.debug("Message has no ID");
+            console.debug("Message has no ID");
             message.msgId = makeid(6);
         }
 
         resolve(getProfileImage(type, message));
     })
         .then((avatar) => {
-            //console.debug("Avatar: " + avatar);
             message.avatar = avatar;
             return renderBadges(message);
         })
-        .then((bages) => {
-            message.badges = bages;
-            //return renderEmotes(message);
-            return message;
+        .then((badges) => {
+            message.badges = badges;
+            console.log(message);
+            return preProcessMessage(message);
         })
         .then((msg) => {
-            msg = renderMessage(type, msg);
-
-            if (msg) {
-                $("#chat").append(msg);
-
-                if (settings.animations.hidedelay > 0) {
-                    removeMessage(message.msgId);
-                }
+            if (msg){
+                message.message = msg;
+                return renderEmotes(message);
             }
-            else return Promise.reject();
+            else {
+                return Promise.reject('Message contains spam');
+            }
+        })
+        .then((msg) => {
+            $("#chat").append(renderMessage(type, msg));
+
+            if (settings.animations.hidedelay > 0) {
+                removeMessage(message.msgId);
+            }
         })
         .then(() => {
             //Prevent clipping
-            let currentHeight = 0;
+            var currentHeight = 0;
             $("#chat").children().each(function () {
                 currentHeight += $(this).outerHeight(true);
             });
 
-            let parentHeight = $('#chat').outerHeight(true);
-            let count = 0;
-            let $chatLine, lineHeight;
+            var parentHeight = $('#chat').outerHeight(true);
+            var count = 0;
+            var $chatLine, lineHeight;
+
+            // Checking the Viewport if Elements are to big the
+            // oldest will be deleted after hide animation
+            // Issue: https://github.com/BlackyWhoElse/streamer.bot-actions/issues/79
+            // Todo: This breaks ticker Themes so need a rework
 
             while (currentHeight > parentHeight) {
                 $chatLine = $('.msg').eq(count);
                 lineHeight = $chatLine.outerHeight(true);
 
 
-                $chatLine.addClass("animate__" + settings.animations.hideAnimation);
+                /*$chatLine.addClass("animate__" + settings.animations.hideAnimation);
                 $chatLine.bind("animationend", function () {
                     $(this).remove();
                 });
-
+                */
                 currentHeight -= lineHeight;
                 count++;
             }
         })
         .catch(function (error) {
-            //console.error(error);
+            if (settings.debug.enabled){
+                console.error(error, message);
+            }
         });
+}
+
+/*
+* This function does some actions before emotes render
+*/
+async function preProcessMessage(message) {
+    let words = message.message.trim().split(" ");
+    let newWords = [];
+    let charCounter = words.length - 1;
+    let containsSpam = false;
+
+    function replaceLink(inputText) {
+        let replacedText, replacePattern;
+
+        replacePattern = /((?:(http|https|Http|Https|rtsp|Rtsp):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\b|$)/gi;
+        replacedText = inputText.replace(replacePattern, `<span class='link'>[link]</span>`);
+
+        return replacedText;
+    }
+
+    function replaceEmail(inputText) {
+        let replacedText, replacePattern;
+
+        replacePattern = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        replacedText = inputText.replace(replacePattern, `<span class='email'>[email]</span>`);
+
+        return replacedText;
+    }
+
+    let exceedsLimit = words.some(function (word, n) {
+        word = replaceLink(replaceEmail(word));
+        newWords.push(word);
+        charCounter += word.length;
+        if (word.length > 20) {
+            containsSpam = true;
+        }
+        return charCounter > settings.filter.characterLimit;
+    });
+
+    if (containsSpam) { return null }
+
+    if (exceedsLimit){
+        newWords.push('<span class="ellipsis">[...]</span>');
+    }
+
+    return newWords.join(" ");
 }
 
 /**
@@ -233,63 +288,9 @@ async function pushMessage(type, message) {
  */
 function renderMessage(platform, message = {}) {
 
-    //console.debug(message);
-
-    let words = message.message.trim().split(" ");
-    let new_words = [];
-    let char_counter = words.length - 1;
-    let contains_spam = false;
-
-    function link_check(inputText, string) {
-        let replacedText, replacePattern;
-
-        replacePattern = /((?:(http|https|Http|Https|rtsp|Rtsp):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\b|$)/gi;
-        replacedText = inputText.replace(replacePattern, string);
-
-        return replacedText;
+    if (settings.debug.enabled) {
+        console.debug("Message Data at the end", message);
     }
-
-    function email_check(inputText, string) {
-        let replacedText, replacePattern;
-
-        replacePattern = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-        replacedText = inputText.replace(replacePattern, string);
-
-        return replacedText;
-    }
-
-    function replaceWithEmote(word) {
-        message.emotes.forEach((emote) => {
-            if (emote.name == word) {
-                word = `<img class="emote" src="${emote.imageUrl}">`;
-            }
-        });
-        return word;
-    }
-
-    message.message = words.some(function (word, n) {
-        word = replaceWithEmote(word);
-        //Emote check
-        if (words[n] != word) {
-            new_words.push(word);
-            char_counter += 5;
-        }
-        else {
-            let check = link_check(email_check(word, "[email]"), "[link]");
-            //Link|email check
-            if (word != check) {
-                word = `<span style='color: #00FFFF'>${check}</span>`;
-                char_counter += 5;
-            }
-            else if (word.length > 20) {
-                contains_spam = true;
-            }
-            new_words.push(word);
-        }
-        return char_counter > settings.filter.characterLimit;
-    }) ? new_words.join(" ") + " <span style='color: #00FFFF'>[...]</span>" : new_words.join(" ");
-
-    if (contains_spam) { return }
 
     switch (platform) {
         case "chatmessage":
@@ -303,7 +304,6 @@ function renderMessage(platform, message = {}) {
         case "reward":
             var tpl = template_reward;
             break;
-
 
         default:
             break;
@@ -336,7 +336,7 @@ function renderMessage(platform, message = {}) {
  * @param {string} msgId
  */
 function removeMessage(msgId) {
-    //console.log("Hide ID " + msgId + "in " + settings.animations.hidedelay);
+    console.log("Hide ID " + msgId + "in " + settings.animations.hidedelay);
 
     const msg = new Promise((resolve, reject) => {
         delay(settings.animations.hidedelay).then(function () {
@@ -347,7 +347,7 @@ function removeMessage(msgId) {
             resolve();
         });
     }).catch(function (error) {
-        //console.error(error);
+        console.error(error);
     });
 }
 
@@ -357,7 +357,7 @@ function removeMessage(msgId) {
  * @returns
  */
 async function renderBadges(message) {
-    let badges = "";
+    var badges = "";
 
     if (!message.badges) return badges;
 
@@ -375,21 +375,92 @@ async function renderBadges(message) {
  * @param {object} message
  * @returns
  */
+
+const FFZEffects = [
+    // Standard
+    "ffzX", "ffzY", "ffzCursed", "ffzW",
+    // Premium
+    "ffzRainbow", "ffzJam",
+    "ffzBounce", "ffzSpin", "ffzLeave",
+    "ffzArrive",
+    // Background Effects
+    "ffzHyper", "ffzSlide"
+];
+
+
+function sortEmotes(emotes) {
+    // Ensure that the input array is not empty
+    if (emotes.length === 0) {
+        return null;
+    }
+    emotes.sort((a, b) => Math.abs(a.endIndex) - Math.abs(b.endIndex));
+    return emotes;
+}
+
+
 async function renderEmotes(message) {
 
-    if (!message.emotes) return message;
+    if (message.emotes.length == 0) return message;
+
+    // Make sure the Emotes are in order
+    message.emotes = sortEmotes(message.emotes);
 
     // Check if Message is emote only
     if (message.message.split(" ").length == message.emotes.length) {
         message.classes.push("emoteonly");
     }
 
-    message.emotes.forEach((emote) => {
-        message.message = message.message.replace(
-            emote.name,
-            `<img class="emote" src="${emote.imageUrl}">`
-        );
+    var emote_key = 0;
+
+    // Adding classes for styles
+    Object.entries(message.emotes).forEach(e => {
+        const [key, emote] = e;
+        message.emotes[key]['classes'] = ["emote"];
+
+        if (emote.type == "FFZGlobal" && FFZEffects.includes(emote.name)) {
+
+            message.emotes[emote_key]["classes"].push(emote.name);
+            message.message = message.message.replace(
+                emote.name,
+                ``
+            );
+            delete message.emotes[key]
+        }
+        else {
+            emote_key = key
+            message.emotes[key]["classes"].push(emote.name);
+        }
     });
+
+    let emoteSearchPointer = 0;
+    let formattedMessage = "";
+
+    // Render
+    message.emotes.some((emote) => {
+
+        if (emote.startIndex > settings.filter.characterLimit){
+            return true;
+        }
+
+        let searchStr = message.message.substring(emoteSearchPointer);
+        let emoteLocation = searchStr.indexOf(emote.name);
+
+        let replacement;
+
+        if (emote.classes.includes("ffzHyper") || emote.classes.includes("ffzSlide")) {
+            replacement = `<div class="${emote.classes.join(" ")}" style="background-image:url(${emote.imageUrl})"><div>`;
+            
+        } else {
+            replacement = `<img class="${emote.classes.join(" ")}" src="${emote.imageUrl}">`
+        }
+
+        formattedMessage += searchStr.substring(0, emoteLocation) + replacement + " ";
+        emoteSearchPointer += emoteLocation + emote.name.length;
+    });
+
+    if (formattedMessage){
+        message.message = formattedMessage + message.message.substring(emoteSearchPointer);
+    }
 
     return message;
 }
@@ -401,6 +472,38 @@ async function renderEmotes(message) {
  */
 async function renderYTEmotes(message) {
     // Todo: Find a way to get Emotes https://github.com/BlackyWhoElse/streamer.bot-actions/issues/56
+
+    const yt_emotes = {
+        ':yt:': `https://yt3.ggpht.com/m6yqTzfmHlsoKKEZRSZCkqf6cGSeHtStY4rIeeXLAk4N9GY_yw3dizdZoxTrjLhlY4r_rkz3GA=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':oops:': `https://yt3.ggpht.com/qByNS7xmuQXsb_5hxW2ggxwQZRN8-biWVnnKuL5FK1zudxIeim48zRVPk6DRq_HgaeKltHhm=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':buffering:': `https://yt3.ggpht.com/foWgzjN0ggMAA0CzDPfPZGyuGwv_7D7Nf6FGLAiomW5RRXj0Fs2lDqs2U6L52Z4J2Zb-D5tCUAA=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':stayhome:': `https://yt3.ggpht.com/u3QDxda8o4jrk_b01YtJYKb57l8Zw8ks8mCwGkiZ5hC5cQP_iszbsggxIWquZhuLRBzl5IEM2w=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':dothefive:': `https://yt3.ggpht.com/ktU04FFgK_a6yaXCS1US-ReFkLjD22XllcIMOyBRHuYKLsrxpVxsauV1gSC2RPraMJWXpWcY=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':elbowbump:': `https://yt3.ggpht.com/gt39CIfizoIAce9a8IzjfrADV5CjTbSyFKUlLMXzYILxJRjwAgYQQJ9PXXxnRvrnTec7ZpfHN4k=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':goodvibes:': `https://yt3.ggpht.com/6LPOiCw9bYr3ZXe8AhUoIMpDe_0BglC4mBmi-uC4kLDqDIuPu4J3ErgV0lEhgzXiBluq-I8j=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':thanksdoc:': `https://yt3.ggpht.com/Av7Vf8FxIp0_dQg4cJrPcGmmL7v9RXraOXMp0ZBDN693ewoMTHbbS7D7V3GXpbtZPSNcRLHTQw=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':videocall:': `https://yt3.ggpht.com/bP-4yir3xZBWh-NKO4eGJJglr8m4dRnHrAKAXikaOJ0E5YFNkJ6IyAz3YhHMyukQ1kJNgQAo=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':virtualhug:': `https://yt3.ggpht.com/-o0Di2mE5oaqf_lb_RI3igd0fptmldMWF9kyQpqKWkdAd7M4cT5ZKzDwlmSSXdcBp3zVLJ41yg=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':yougotthis:': `https://yt3.ggpht.com/WxLUGtJzyLd4dcGaWnmcQnw9lTu9BW3_pEuCp6kcM2pxF5p5J28PvcYIXWh6uCm78LxGJVGn9g=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':sanitizer:': `https://yt3.ggpht.com/4PaPj_5jR1lkidYakZ4EkxVqNr0Eqp4g0xvlYt_gZqjTtVeyHBszqf57nB9s6uLh7d2QtEhEWEc=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':takeout:': `https://yt3.ggpht.com/ehUiXdRyvel0hba-BopQoDWTvM9ogZcMPaaAeR6IA9wkocdG21aFVN_IylxRGHtl2mE6L9jg1Do=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':hydrate:': `https://yt3.ggpht.com/Plqt3RM7NBy-R_eA90cIjzMEzo8guwE0KqJ9QBeCkPEWO7FvUqKU_Vq03Lmv9XxMrG6A3Ouwpg=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':chillwcat:': `https://yt3.ggpht.com/ZN5h05TnuFQmbzgGvIfk3bgrV-_Wp8bAbecOqw92s2isI6GLHbYjTyZjcqf0rKQ5t4jBtlumzw=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':chillwdog:': `https://yt3.ggpht.com/jiaOCnfLX0rqed1sISxULaO7T-ktq2GEPizX9snaxvMLxQOMmWXMmAVGyIbYeFS2IvrMpxvFcQ=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':elbowcough:': `https://yt3.ggpht.com/kWObU3wBMdHS43q6-ib2KJ-iC5tWqe7QcEITaNApbXEZfrik9E57_ve_BEPHO86z4Xrv8ikMdW0=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':learning:': `https://yt3.ggpht.com/LiS1vw8KUXmczimKGfA-toRYXOcV1o-9aGSNRF0dGLk15Da2KTAsU-DXkIao-S7-kCkSnJwt=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':washhands:': `https://yt3.ggpht.com/66Fn-0wiOmLDkoKk4FSa9vD0yymtWEulbbQK2x-kTBswQ2auer_2ftvmrJGyMMoqEGNjJtipBA=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':socialdist': `https://yt3.ggpht.com/0WD780vTqUcS0pFq423D8WRuA_T8NKdTbRztChITI9jgOqOxD2r6dthbu86P6fIggDR6omAPfnQ=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':shelterin:': `https://yt3.ggpht.com/KgaktgJ3tmEFB-gMtjUcuHd6UKq50b-S3PbHEOSUbJG7UddPoJSmrIzysXA77jJp5oRNLWG84Q=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+    };
+
+    message.emotes.forEach((yt_emotes) => {
+        message.message = message.message.replace(
+            yt_emotes,
+            `<img class="emote" src="${emote.imageUrl}">`
+        );
+    });
+
     return message;
 }
 
@@ -410,7 +513,6 @@ async function renderYTEmotes(message) {
  * @returns
  */
 async function getProfileImage(type, message) {
-    //console.debug(message);
 
     username = "";
 
@@ -446,6 +548,7 @@ async function getProfileImage(type, message) {
             return message.user.profileImageUrl;
             break;
     }
+
 }
 
 // Command Code
@@ -460,69 +563,67 @@ function delay(t, v) {
     });
 }
 
-function __debugMessages() {
-    let sub = false;
-    let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
-
-    if (Math.random() == 1) sub = true;
-
-    let message = {
-        avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/35c9d8fb-6dd6-4e26-bd28-ff37b316056a-profile_image-300x300.png",
-        bits: 0,
-        badges: [{
-            imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
-            name: "broadcaster",
-        },
-        {
-            imageUrl: "https://static-cdn.jtvnw.net/badges/v1/de6d9479-80dc-4d5a-99ab-8db5ee2ac1c9/3",
-            name: "subscriber",
-        },
-        ],
-        channel: "ziegmaster",
-        color: "#B33B19",
-        displayName: "Ziegmaster",
-        firstMessage: false,
-        hasBits: false,
-        internal: false,
-        isAnonymous: false,
-        isCustomReward: false,
-        isHighlighted: false,
-        isMe: false,
-        isReply: false,
-        monthsSubscribed: 12,
-        msgId: makeid(12),
-        role: r,
-        subscriber: sub,
-        userId: 160832700,
-        username: "ziegmaster",
-        time: "13:37",
-    };
-
-    pushMessage('chatmessage', { ...message, ...randomMessage() });
-}
-
-// Debug Code
+/**
+ * # Debug Mode
+ * This will constantly generate new messages with random values
+ * Name and profile picture are combined but color,message and role will be random
+ *
+ * The debug mode is for longtime test and themeing.
+ *
+ */
 function debugMessages() {
 
-    __debugMessages();
-
-    dev = setInterval(__debugMessages, settings.debug.messageInterval);
-}
-
-function makeid(length) {
-    let result = "";
-    let characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
-
-function randomMessage() {
-
-    let msgs = [
+    const badges = [
+        [{
+            "name": "vip",
+            "version": "1",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/3"
+        },
+        {
+            "name": "subscriber",
+            "version": "0",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/5d9f2208-5dd8-11e7-8513-2ff4adfae661/3"
+        }
+        ],
+        [{
+            "name": "premium",
+            "version": "1",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/3"
+        }],
+        [{
+            "name": "broadcaster",
+            "version": "1",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3"
+        },
+        {
+            "name": "subscriber",
+            "version": "0",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/5d9f2208-5dd8-11e7-8513-2ff4adfae661/3"
+        },
+        {
+            "name": "glhf-pledge",
+            "version": "1",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/3158e758-3cb4-43c5-94b3-7639810451c5/3"
+        }
+        ]
+    ];
+    const names = [
+        { name: "stormen", displayName: "Stormen" },
+        { name: "pestily", displayName: "Pestily" },
+        { name: "shivfps", displayName: "ShivFPS" },
+        { name: "faide", displayName: "Faide" },
+        { name: "toastracktv", displayName: "Toastracktv" },
+        { name: "esl_csgo", displayName: "ESL_CSGO" },
+        { name: "stodeh", displayName: "Stodeh" },
+        { name: "spatzetiger", displayName: "Spatzetiger" },
+        { name: "burritodyson", displayName: "BurritoDyson" },
+        { name: "nerdl1ft", displayName: "NerdL1ft" },
+    ];
+    const msgs = [
+        {
+            message: "SPAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM",
+            emotes : [],
+        },
         {
             message: "Heeey! How are you?",
             emotes: [],
@@ -532,22 +633,28 @@ function randomMessage() {
             emotes: [],
         },
         {
-            message: "Svin Svin Svin",
+            message: "Svin Svin Svin MESSAGE",
             emotes: [
                 {
                     name: "Svin",
                     type: "BTTVChannel",
-                    imageUrl: "https://cdn.betterttv.net/emote/5f0435ed6bd7f3052a0c5564/3x"
+                    imageUrl: "https://cdn.betterttv.net/emote/5f0435ed6bd7f3052a0c5564/3x",
+                    startIndex : 0,
+                    endIndex: 3
                 },
                 {
                     name: "Svin",
                     type: "BTTVChannel",
-                    imageUrl: "https://cdn.betterttv.net/emote/5f0435ed6bd7f3052a0c5564/3x"
+                    imageUrl: "https://cdn.betterttv.net/emote/5f0435ed6bd7f3052a0c5564/3x",
+                    startIndex : 5,
+                    endIndex: 8,
                 },
                 {
                     name: "Svin",
                     type: "BTTVChannel",
-                    imageUrl: "https://cdn.betterttv.net/emote/5f0435ed6bd7f3052a0c5564/3x"
+                    imageUrl: "https://cdn.betterttv.net/emote/5f0435ed6bd7f3052a0c5564/3x",
+                    startIndex : 10,
+                    endIndex: 13,
                 },
             ],
         },
@@ -561,7 +668,9 @@ function randomMessage() {
                 {
                     name: "BloodTrail",
                     type: "Twitch",
-                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0"
+                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0",
+                    startIndex : 106,
+                    endIndex: 115,
                 },
             ],
         },
@@ -571,7 +680,9 @@ function randomMessage() {
                 {
                     name: "AYAYALove",
                     type: "BTTVChannel",
-                    imageUrl: "https://cdn.betterttv.net/emote/5c136451182c9d4099a83068/3x"
+                    imageUrl: "https://cdn.betterttv.net/emote/5c136451182c9d4099a83068/3x",
+                    startIndex : 56,
+                    endIndex: 64,
                 },
             ],
         },
@@ -581,12 +692,16 @@ function randomMessage() {
                 {
                     name: "ziegmaClown",
                     type: "Twitch",
-                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_fba8064aa3b14d6c9d266c720586f48b/default/dark/2.0"
+                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_fba8064aa3b14d6c9d266c720586f48b/default/dark/2.0",
+                    startIndex : 54,
+                    endIndex: 64,
                 },
                 {
                     name: "BloodTrail",
                     type: "Twitch",
-                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0"
+                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0",
+                    startIndex : 158,
+                    endIndex: 167,
                 },
             ],
         },
@@ -596,48 +711,115 @@ function randomMessage() {
                 {
                     name: "PoroSad",
                     type: "Twitch",
-                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4c39207000564711868f3196cc0a8748/default/dark/2.0"
+                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_4c39207000564711868f3196cc0a8748/default/dark/2.0",
+                    startIndex : 30,
+                    endIndex: 36,
                 }
             ],
         },
         {
-            message: "He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail",
+            message: "He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say BloodTrail He doesn't know, we won't say",
             emotes: [
                 {
                     name: "BloodTrail",
                     type: "Twitch",
-                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0"
+                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0",
+                    startIndex : 30,
+                    endIndex: 39,
                 },
                 {
                     name: "BloodTrail",
                     type: "Twitch",
-                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0"
+                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0",
+                    startIndex : 71,
+                    endIndex: 80,
                 },
                 {
                     name: "BloodTrail",
                     type: "Twitch",
-                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0"
+                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0",
+                    startIndex : 112,
+                    endIndex: 121,
                 },
                 {
                     name: "BloodTrail",
                     type: "Twitch",
-                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0"
+                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0",
+                    startIndex : 153,
+                    endIndex: 162,
                 },
                 {
                     name: "BloodTrail",
                     type: "Twitch",
-                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0"
+                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0",
+                    startIndex : 194,
+                    endIndex: 203,
                 },
                 {
                     name: "BloodTrail",
                     type: "Twitch",
-                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0"
+                    imageUrl: "https://static-cdn.jtvnw.net/emoticons/v2/69/default/dark/2.0",
+                    startIndex : 235,
+                    endIndex: 244,
                 },
             ],
         },
     ];
+    const colors = [
+        "#a5cc64",
+        "#25c532",
+        "#a2c014",
+        "#01314f",
+        "#4ad4d4",
+        "#B33B19",
+        "#20dd24",
+        "#c859f7",
+    ];
 
-    msg = msgs[Math.floor(Math.random() * msgs.length)]
+    dev = setInterval(() => {
+        // Generatin random role
+        let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
 
-    return msg;
+        let n = names[Math.floor(Math.random() * names.length)];
+
+        let msg = msgs[Math.floor(Math.random() * msgs.length)];
+
+        let message = {
+            bits: 0,
+            badges: badges[Math.floor(Math.random() * badges.length)],
+            emotes: msg.emotes,
+            channel: n.name,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            displayName: n.displayName,
+            firstMessage: Math.random() < 0.5,
+            hasBits: Math.random() < 0.5,
+            internal: Math.random() < 0.5,
+            isAnonymous: Math.random() < 0.5,
+            isCustomReward: false,
+            isHighlighted: Math.random() < 0.5,
+            isMe: Math.random() < 0.5,
+            isReply: Math.random() < 0.5,
+            message: msg.message,
+            monthsSubscribed: 57,
+            msgId: makeid(12),
+            role: r,
+            subscriber: Math.random() < 0.5,
+            userId: 160832700,
+            username: n.name,
+            time: "13:37",
+        };
+
+        pushMessage('chatmessage', message);
+    }, settings.debug.messageInterval);
+}
+
+function makeid(length) {
+    var result = "";
+    var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }

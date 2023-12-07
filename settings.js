@@ -1,7 +1,7 @@
 const Store = require('electron-store');
 const windowStateKeeper = require('electron-window-state');
 
-const iconPath = `${__dirname}/favicon.ico`;
+const iconPath = `${__dirname}/widget/favicon.ico`;
 
 const settings = new Store();
 

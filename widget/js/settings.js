@@ -47,7 +47,7 @@ const settings = {
         messageInterval: qpData['msg-interval']
     },
     //Theme directory name
-    template: qpData['theme'],
+    template: encodeURIComponent(qpData['theme']),
     filter: {
         //Max number of characters displayed per message (approx)
         characterLimit: qpData['char-limit'],
