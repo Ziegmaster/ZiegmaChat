@@ -7,10 +7,17 @@ const {
   dialog, 
   nativeImage 
 } = require('electron');
-const { iconPath, settings, mainWindowState, chatWindowState} = require('./settings');
+const { 
+  iconPath, 
+  settings, 
+  mainWindowState, 
+  chatWindowState
+} = require('./settings');
 const { satisfies } = require('compare-versions');
 const { readdir } = require('fs/promises');
 const server = require('./server');
+
+const appIcon = nativeImage.createFromPath(iconPath);
 
 const checkVersion = async () => {
   const storedVersion = settings.get('version') || '1.2.0';
@@ -24,7 +31,7 @@ const checkVersion = async () => {
       defaultId: 1,
       cancelId: 1,
       normalizeAccessKeys: true,
-      icon: iconPath,
+      icon: appIcon,
     }).then(promise => {
       settings.set('version', currentVersion);
       if (promise.response === 0) {
@@ -48,7 +55,7 @@ app.createMainWindow = function(){
     y: this.mainWindowState.y,
     width: 420,
     height: 440,
-    icon: iconPath,
+    icon: appIcon,
     resizable: false,
     webPreferences: {
       preload: `${__dirname}/preload.js`,
@@ -257,7 +264,7 @@ app.whenReady().then(async () => {
     }
   ]);
 
-  app.tray = new Tray(nativeImage.createFromPath(iconPath));
+  app.tray = new Tray(appIcon);
   app.tray.setToolTip('ZiegmaChat');
   app.tray.on('click', () => {
     app.mainWindow.show();
