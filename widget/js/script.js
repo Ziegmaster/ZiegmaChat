@@ -621,7 +621,7 @@ function debugMessages() {
     ];
     const msgs = [
         {
-            "message" : "This message is more than 150 characters, contains YouTube https://www.youtube.com and my notmyrealemail@gmail.com I hope it won't be cutted by the algorythm please...",
+            "message" : "This message is longer than 150 characters, contains YouTube https://www.youtube.com and my notmyrealemail@gmail.com I hope it won't be cutted by the algorythm please...",
             "emotes" : []
         },
         {
