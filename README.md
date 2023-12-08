@@ -36,28 +36,14 @@ cd ./ZiegmaChat
 npm install
 ```
 
-**Install dependencies for WSL**
-```console
-npm install --platform=win32
-```
-```console
-npm_config_platform=win32 npm install
-```
-
 **Test the application**
 ```console
 npm start
 ```
-```console
-npm run start
-```
-```console
-npm run wsl
-```
 
-**Install electron-packager if missing**
+**Install libraries if npm start fails**
 ```console
-npm install -g electron-packager --save-dev
+apt install libnss3-dev libgdk-pixbuf2.0-dev libgtk-3-dev libxss-dev
 ```
 
 **Building the application**
@@ -71,4 +57,9 @@ npm run build-all
 **Use electron-packager manually if you need other options.**
 ```console
 electron-packager --help
+```
+
+**Install electron-packager if missing**
+```console
+npm install -g electron-packager --save-dev
 ```

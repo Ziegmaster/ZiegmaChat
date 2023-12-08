@@ -5,14 +5,12 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "wsl": "electron . --no-sandbox",
-    "build-all": "electron-packager . ZiegmaChat --icon=./widget/favicon.ico --all --out=./../",
-    "build-windows": "electron-packager . ZiegmaChat --icon=./widget/favicon.ico --platform=win32 --arch=x64 --out=./../"
+    "build-all": "electron-packager . ZiegmaChat --icon=./widget/favicon.ico --all --out=./build",
+    "build-windows": "electron-packager . ZiegmaChat --icon=./widget/favicon.ico --platform=win32 --arch=x64 --out=./build"
   },
   "repository": "https://github.com/TrueZiegmaster/ZiegmaChat",
   "keywords": [
-    "Electron",
-    "start"
+    "ZiegmaChat"
   ],
   "author": "Ziegmaster",
   "license": "MIT",

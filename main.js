@@ -1,4 +1,12 @@
-const { app, Menu, Tray, BrowserWindow, ipcMain, dialog } = require('electron');
+const { 
+  app, 
+  Menu, 
+  Tray, 
+  BrowserWindow, 
+  ipcMain, 
+  dialog, 
+  nativeImage 
+} = require('electron');
 const { iconPath, settings, mainWindowState, chatWindowState} = require('./settings');
 const { satisfies } = require('compare-versions');
 const { readdir } = require('fs/promises');
@@ -249,7 +257,7 @@ app.whenReady().then(async () => {
     }
   ]);
 
-  app.tray = new Tray(iconPath);
+  app.tray = new Tray(nativeImage.createFromPath(iconPath));
   app.tray.setToolTip('ZiegmaChat');
   app.tray.on('click', () => {
     app.mainWindow.show();
