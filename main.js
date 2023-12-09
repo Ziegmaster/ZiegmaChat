@@ -57,6 +57,7 @@ app.createMainWindow = function(){
     height: 440,
     icon: appIcon,
     resizable: false,
+    fullscreenable: false,
     webPreferences: {
       preload: `${__dirname}/preload.js`,
     },
@@ -85,23 +86,17 @@ app.createChatWindow = function(){
     y: this.chatWindowState.y,
     width: this.chatWindowState.width,
     height: this.chatWindowState.height,
+    fullscreenable: false,
+    focusable: !gameMode,
     transparent: gameMode,
     frame: !gameMode,
-    icon: iconPath,
+    hasShadow: !gameMode,
+    icon: appIcon,
   });
   this.chatWindow.removeMenu();
   //This is the best solution but still doesn't work in all cases
   this.chatWindow.setAlwaysOnTop(gameMode, 'screen-saver');
   this.chatWindow.setIgnoreMouseEvents(gameMode);
-  //Some dark magic to fix Electron window's header bug with frameless window
-  if (gameMode) {
-    this.chatWindow.on('blur', () => {
-      this.chatWindow.setBackgroundColor('#00000000');
-    });
-    this.chatWindow.on('focus', () => {
-      this.chatWindow.setBackgroundColor('#00000000');
-    });
-  }
   //Send closed event to the main window when the window is actually closed
   this.chatWindow.on('closed', () => {
     this.chatWindow = null;
@@ -129,7 +124,7 @@ app.setHandlers = function(){
       title: 'ZiegmaChatError',
       type: 'error',
       message: message,
-      icon: iconPath,
+      icon: appIcon,
     });
   });
 
@@ -208,7 +203,7 @@ app.setHandlers = function(){
       cancelId: 1,
       message: 'Are you sure you want to reset to defaults?',
       normalizeAccessKeys: true,
-      icon: iconPath,
+      icon: appIcon,
     }).then(promise => {
       if (promise.response === 0) {
         settings.set('app', settings.get('defaults'));
