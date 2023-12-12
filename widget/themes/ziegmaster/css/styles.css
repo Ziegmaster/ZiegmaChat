@@ -8,6 +8,8 @@
     --message-border-radius: .5rem;
     --message-border-shadow: .25rem;
     --message-border-size: .25rem;
+    --message-line-height: 1.2rem;
+    --message-emote-bottom-margin: -.2rem;
     --rewardColor: purple;
     --highlightColor : #00FFFF;
     --badge-size: 1rem;
@@ -121,12 +123,11 @@ body,html {
     grid-column: 1/span 3;
     grid-row: 2/span 2;
     text-indent: calc(var(--avatar-size) + var(--element-spacing));
-    width: 100%;
-    line-height: calc(var(--font-size)*1.2)
+    line-height: calc(var(--message-line-height));
 }
 
 .content>img {
-    vertical-align: sub
+    margin-bottom: calc(var(--message-emote-bottom-margin));
 }
 
 .message .emote {

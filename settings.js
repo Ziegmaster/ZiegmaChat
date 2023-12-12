@@ -1,8 +1,6 @@
 const Store = require('electron-store');
 const windowStateKeeper = require('electron-window-state');
 
-const iconPath = `${__dirname}/images/app-icon.png`;
-
 const settings = new Store();
 
 settings.set('defaults', {
@@ -31,7 +29,6 @@ settings.set('defaults', {
 if (!settings.get('app')) settings.set('app', settings.get('defaults'));
 
 module.exports = {
-    iconPath,
     settings,
     mainWindowState : () => {
         return windowStateKeeper({

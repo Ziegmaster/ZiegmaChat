@@ -1,74 +1,68 @@
 {
-    "fields": [
-        {
-            "name": "font-size",
+    "fields": {
+        "font-size" : {
             "label": "Font size",
-            "type": "number",
+            "input-type": "number",
             "value": {
-                "type": "int",
+                "data-type": "integer",
                 "default": 12
             },
             "enabled": true
         },
-        {
-            "name": "chat-align",
+        "chat-align" : {
             "label": "Chat messages position",
-            "type": "select",
+            "input-type": "select",
             "options": [
                 "Left",
                 "Right"
             ],
             "value": {
-                "type": "text",
+                "data-type": "string",
                 "default": "Left"
             },
             "enabled": true
         },
-        {
-            "name": "hide-delay",
+        "hide-delay" : {
             "label": "Message hide delay (1000 = 1s)",
-            "type": "number",
+            "input-type": "number",
             "value": {
-                "type": "int",
+                "data-type": "integer",
                 "default": 15000
             },
             "enabled": true
         },
-        {
-            "name": "animate",
+        "animate" : {
             "label": "Enable animations",
-            "type": "checkbox",
+            "input-type": "checkbox",
             "value": {
-                "type": "bool",
+                "data-type": "boolean",
                 "default": true
             },
             "enabled": true
         },
-        {
-            "name": "show-animation",
+        "show-animation" : {
             "label": "Message show animation",
-            "type": "select",
+            "input-type": "select",
             "options": [
                 "bounceIn"
             ],
             "value": {
-                "type": "text",
+                "type": "string",
                 "default": "bounceIn"
             },
             "enabled": false
         },
-        {
-            "name": "hide-animation",
+        "hide-animation" : {
             "label": "Message hide animation",
-            "type": "select",
+            "input-type": "select",
             "options": [
                 "fadeOut"
             ],
             "value": {
-                "type": "text",
+                "data-type": "string",
                 "default": "fadeOut"
             },
             "enabled": false
         }
-    ]
+    }
 }

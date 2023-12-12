@@ -5,19 +5,21 @@ const {
   BrowserWindow, 
   ipcMain, 
   dialog, 
-  nativeImage 
+  nativeImage, 
+  shell
 } = require('electron');
-const { 
-  iconPath, 
+const { satisfies } = require('compare-versions');
+const { readdir } = require('fs/promises');
+const {
   settings, 
   mainWindowState, 
   chatWindowState
 } = require('./settings');
-const { satisfies } = require('compare-versions');
-const { readdir } = require('fs/promises');
-const server = require('./server');
+const { parseConfig } = require('./modules/config-parser');
+const { httpServer, setPublic } = require('./modules/server');
+const path = require('path');
 
-const appIcon = nativeImage.createFromPath(iconPath);
+const appIcon = nativeImage.createFromPath(path.join(__dirname, '/images/app-icon.png'));
 
 const checkVersion = async () => {
   const storedVersion = settings.get('version') || '1.2.0';
@@ -59,7 +61,7 @@ app.createMainWindow = function(){
     resizable: false,
     fullscreenable: false,
     webPreferences: {
-      preload: `${__dirname}/preload.js`,
+      preload: path.join(__dirname, '/preload.js'),
     },
   });
   this.mainWindow.removeMenu();
@@ -73,6 +75,10 @@ app.createMainWindow = function(){
     this.mainWindow = null;
     this.chatWindow?.close();
     this.quit();
+  });
+  this.mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
   });
   this.mainWindow.loadFile('index.html');
   this.mainWindowState.manage(this.mainWindow);
@@ -149,17 +155,23 @@ app.setHandlers = function(){
   ipcMain.handle('get-themes', () => {
     return (async (source) => (await readdir(source, { withFileTypes: true }))
       .filter(dirent => dirent.isDirectory())
-      .map(dirent => dirent.name))(`${__dirname}/widget/themes/`);
+      .map(dirent => dirent.name))(path.join(__dirname, '/widget/themes'));
   });
 
   ipcMain.handle('theme-load', (_, theme) => {
     try {
-      const themeConfig = require(`${__dirname}/widget/themes/${theme}/ziegmachat.config.json`);
+      const themeConfig = parseConfig(
+        path.join(__dirname, `/widget/themes/${theme}/ziegmachat.config.json`),
+        path.join(__dirname, '/schemas/ziegmachat.config.json')
+      );
+      if (!themeConfig){
+        throw new Error('Theme config file is empty.');
+      }
       let s = settings.get(`app.widget.themes.${theme}`);
       if (!s) {
         const themeDefaults = {};
-        themeConfig.fields?.forEach(field => {
-          themeDefaults[field.name] = field.value.default;
+        Object.keys(themeConfig.fields).forEach(field => {
+          themeDefaults[field] = themeConfig.fields[field]['value']['default'];
         });
         s = themeDefaults;
         settings.set(`app.widget.themes.${theme}`, s);
@@ -167,10 +179,7 @@ app.setHandlers = function(){
       return { config: themeConfig, settings: s };
     }
     catch (e) {
-      if (e.code === 'MODULE_NOT_FOUND') {
-        // Return something not undefined just in case
-        return false;
-      }
+      return { errorMessage : e};
     }
   });
 
@@ -186,7 +195,7 @@ app.setHandlers = function(){
     settings.set(`app.widget.themes.${theme}`, { ...widgetThemeSettings, ...changedSettings.widget.themes[theme] });
     if (changedSettings.server.port) {
       this.httpServer.close();
-      this.httpServer = server.listen(changedSettings.server.port);
+      this.httpServer.listen(changedSettings.server.port);
     }
     if (Object.keys(changedSettings.widget.general).length > 0 || Object.keys(changedSettings.widget.themes[theme]).length > 0) {
       this.chatWindow?.loadURL(getWidgetURL());
@@ -208,7 +217,7 @@ app.setHandlers = function(){
       if (promise.response === 0) {
         settings.set('app', settings.get('defaults'));
         this.httpServer.close();
-        this.httpServer = server.listen(settings.get('app.server.port'));
+        this.httpServer.listen(settings.get('app.server.port'));
         if (this.chatWindow) {
           this.chatWindow.destroy();
           this.createChatWindow();
@@ -238,7 +247,12 @@ app.whenReady().then(async () => {
   app.createMainWindow();
   app.setHandlers();
 
-  const contextMenu = Menu.buildFromTemplate([
+  app.tray = new Tray(appIcon);
+  app.tray.setToolTip('ZiegmaChat');
+  app.tray.on('click', () => {
+    app.mainWindow.show();
+  });
+  app.tray.setContextMenu(Menu.buildFromTemplate([
     {
       label: 'ZiegmaChat for Streamer.bot',
       enabled: false,
@@ -257,15 +271,9 @@ app.whenReady().then(async () => {
         app.quit();
       }
     }
-  ]);
-
-  app.tray = new Tray(appIcon);
-  app.tray.setToolTip('ZiegmaChat');
-  app.tray.on('click', () => {
-    app.mainWindow.show();
-  });
-  app.tray.setContextMenu(contextMenu);
+  ]));
 
   // Start internal HTTP server
-  app.httpServer = server.listen(settings.get('app.server.port'));
+  setPublic(path.join(__dirname, '/widget'));
+  app.httpServer = httpServer.listen(settings.get('app.server.port'));
 });

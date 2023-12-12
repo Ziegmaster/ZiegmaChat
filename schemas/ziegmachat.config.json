@@ -1,0 +1,50 @@
+{
+    "type" : "object",
+    "required" : ["fields"],
+    "properties" : {
+        "fields" : {
+            "type" : "object",
+            "patternProperties": {
+                "^.*$" : {
+                    "type": "object",
+                    "properties":{
+                        "label": {
+                            "type": "string"
+                        },
+                        "input-type": {
+                            "type": "string"
+                        },
+                        "options": {
+                            "type": "array",
+                            "anyOf": [
+                                {"items" : {"type" : "string"}},
+                                {"items" : {"type" : "integer"}},
+                                {"items" : {"type" : "number"}},
+                                {"items" : {"type" : "boolean"}}
+                            ]
+                        },
+                        "value": {
+                            "type" : "object",
+                            "properties" : {
+                                "data-type" : {
+                                    "type" : "string"
+                                },
+                                "default" : {
+                                    "anyOf" : [
+                                        {"type" : "string"},
+                                        {"type" : "integer"},
+                                        {"type" : "number"},
+                                        {"type" : "boolean"}
+                                    ]
+                                }
+                            }
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -61,58 +61,57 @@ window.addEventListener('DOMContentLoaded', async () => {
         window.ipcRenderer.invoke('theme-load', theme).then(themeData => {
             const tab = document.querySelector('.tab.theme-settings');
             tab.innerHTML = null;
-            if (themeData) {
-                themeData.config.fields?.forEach(field => {
+            if (!themeData.errorMessage) {
+                Object.keys(themeData.config.fields).forEach(field => {
                     const block = document.createElement('div');
                     block.className = 'block';
                     const label = document.createElement('label');
-                    label.setAttribute('for', field.name);
-                    label.innerText = field.label;
+                    label.innerText = themeData.config.fields[field]['label'];
                     block.append(label);
-                    if (field.type == 'select') {
+                    if (themeData.config.fields[field]['input-type'] == 'select') {
                         const select = document.createElement('select');
                         select.className = 'theme-qp-input';
-                        select.dataset.qpName = field.name;
-                        select.dataset.valueType = field.value.type;
-                        field.options.forEach((optionText, index) => {
+                        select.dataset.qpName = field;
+                        select.dataset.valueType = themeData.config.fields[field]['value']['data-type'];
+                        themeData.config.fields[field].options.forEach((optionText) => {
                             const option = document.createElement('option');
                             option.value = optionText;
                             option.innerText = optionText;
                             select.append(option);
                         });
-                        if (!field.enabled) {
+                        if (!themeData.config.fields[field]['enabled']) {
                             select.toggleAttribute('disabled');
                         }
-                        if (themeData.settings && themeData.settings[field.name] !== undefined) {
-                            select.value = themeData.settings[field.name];
+                        if (themeData.settings && themeData.settings[field] !== undefined) {
+                            select.value = themeData.settings[field];
                         }
                         else {
-                            select.value = field.value.default;
+                            select.value = themeData.config.fields[field]['value']['default'];
                         }
                         select.addEventListener('change', toggleApplyOn);
                         block.append(select);
                     }
                     else {
                         const input = document.createElement('input');
-                        input.type = field.type;
+                        input.type = themeData.config.fields[field]['input-type'];
                         input.className = 'theme-qp-input';
-                        input.dataset.qpName = field.name;
-                        input.dataset.valueType = field.value.type;
-                        if (!field.enabled) {
+                        input.dataset.qpName = field;
+                        input.dataset.valueType = themeData.config.fields[field]['value']['data-type'];
+                        if (!themeData.config.fields[field]['enabled']) {
                             input.toggleAttribute('disabled');
                         }
-                        if (field.type == 'checkbox') {
+                        if (themeData.config.fields[field]['input-type'] == 'checkbox') {
                             const br = document.createElement('br');
                             const labelSwitch = document.createElement('label');
                             labelSwitch.className = 'switch';
                             const slider = document.createElement('span');
                             slider.className = 'slider round';
                             block.append(br);
-                            if (themeData.settings && themeData.settings[field.name] !== undefined) {
-                                input.checked = themeData.settings[field.name];
+                            if (themeData.settings && themeData.settings[field] !== undefined) {
+                                input.checked = themeData.settings[field];
                             }
                             else {
-                                input.checked = field.value.default;
+                                input.checked = themeData.config.fields[field]['value']['default'];
                             }
                             input.addEventListener('change', toggleApplyOn);
                             labelSwitch.append(input);
@@ -120,11 +119,11 @@ window.addEventListener('DOMContentLoaded', async () => {
                             block.append(labelSwitch);
                         }
                         else {
-                            if (themeData.settings && themeData.settings[field.name] !== undefined) {
-                                input.value = themeData.settings[field.name];
+                            if (themeData.settings && themeData.settings[field] !== undefined) {
+                                input.value = themeData.settings[field];
                             }
                             else {
-                                input.value = field.value.default;
+                                input.value = themeData.config.fields[field]['value']['default'];
                             }
                             input.addEventListener('input', toggleApplyOn);
                             block.append(input);
@@ -134,6 +133,10 @@ window.addEventListener('DOMContentLoaded', async () => {
                 });
                 localSettings.widget.themes[theme] = themeData.settings;
                 toggleCopyOn();
+            }
+            else{
+                tab.innerHTML = themeData.errorMessage;
+                tab.innerHTML += '<br><br>Visit <a target="_blank" href="https://github.com/TrueZiegmaster/ZiegmaChat/tree/main/widget/themes#readme">this page</a> if you are a developer.';
             }
         });
     }
@@ -207,11 +210,25 @@ window.addEventListener('DOMContentLoaded', async () => {
             if (input.tagName == 'select' || input.type != 'checkbox') {
                 let inputValue = input.value;
                 switch (input.dataset.valueType) {
-                    case 'int':
+                    case 'integer':
                         inputValue = parseInt(inputValue);
                         break;
-                    case 'float':
+                    case 'number':
                         inputValue = parseFloat(inputValue);
+                        break;
+                    case 'boolean':
+                        const boolTrue = ['true', 'yes'];
+                        const boolFalse = ['false', 'no'];
+                        const lowered = inputValue.toLowerCase()
+                        if (boolTrue.includes(lowered)){
+                            inputValue = true;
+                        }
+                        else if (boolFalse.includes(lowered)){
+                            inputValue = false;
+                        }
+                        else{
+                            inputValue = undefined;
+                        }
                         break;
                     default:
                         break;

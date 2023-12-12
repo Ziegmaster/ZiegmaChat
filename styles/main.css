@@ -227,27 +227,39 @@ body>label {
 .main {
     grid-column: 2;
     grid-row: 3;
-    overflow: hidden
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .content-wrapper {
     height: calc(100% - 1rem);
     box-sizing: border-box;
     margin: .5rem .5rem .5rem 1rem;
-    overflow: hidden;
-    position: relative
+    position: relative;
 }
 
 .tab {
     height: 100%;
     display: none;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-wrap: break-word;
     position: relative;
-    padding-right: .5rem
+    padding-right: .5rem;
 }
 
 .tab.active {
     display: block
+}
+
+a:link, a:visited {
+    color: var(--button-color-purple);
+    background-color: transparent;
+    text-decoration: none;
+}
+a:hover, a:active {
+    color: var(--button-color-teal);
+    background-color: transparent;
+    text-decoration: underline;
 }
 
 ::-webkit-scrollbar {
