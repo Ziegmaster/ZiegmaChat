@@ -165,7 +165,7 @@ app.setHandlers = function(){
         path.join(__dirname, '/schemas/ziegmachat.config.json')
       );
       if (!themeConfig){
-        throw new Error('Theme config file is empty.');
+        throw new Error('Theme config file is invalid or empty.');
       }
       let s = settings.get(`app.widget.themes.${theme}`);
       if (!s) {

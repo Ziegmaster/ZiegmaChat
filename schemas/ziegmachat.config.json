@@ -1,6 +1,5 @@
 {
     "type" : "object",
-    "required" : ["fields"],
     "properties" : {
         "fields" : {
             "type" : "object",
@@ -12,7 +11,8 @@
                             "type": "string"
                         },
                         "input-type": {
-                            "type": "string"
+                            "type": "string",
+                            "pattern" : "^(text|number|checkbox|select)$"
                         },
                         "options": {
                             "type": "array",
@@ -42,9 +42,21 @@
                         "enabled": {
                             "type": "boolean"
                         }
+                    },
+                    "required" : ["label", "input-type", "value", "enabled"],
+                    "if": {
+                        "properties": {
+                            "input-type" : {
+                                "enum" : ["select"]
+                            }
+                        }
+                    },
+                    "then": {
+                        "required": ["options"]
                     }
                 }
             }
         }
-    }
+    },
+    "required" : ["fields"]
 }
