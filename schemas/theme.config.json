@@ -27,7 +27,8 @@
                             "type" : "object",
                             "properties" : {
                                 "data-type" : {
-                                    "type" : "string"
+                                    "type" : "string",
+                                    "pattern" : "^(string|integer|number|boolean)$"
                                 },
                                 "default" : {
                                     "anyOf" : [
@@ -37,7 +38,8 @@
                                         {"type" : "boolean"}
                                     ]
                                 }
-                            }
+                            },
+                            "required" : ["data-type", "default"]
                         },
                         "enabled": {
                             "type": "boolean"

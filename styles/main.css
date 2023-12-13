@@ -42,6 +42,7 @@ select {
 }
 
 textarea{
+    font-family: var(--font-family);
     height: 10em;
     resize: none;
     box-sizing: border-box;

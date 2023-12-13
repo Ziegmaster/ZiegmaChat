@@ -45,9 +45,9 @@ const qpData = (() => {
     });
 
     //Ensure default params present to run the widget correctly
-    Object.entries(defaults).forEach(value => {
-        if (result[value[0]] === undefined) {
-            result[value[0]] = value[1];
+    Object.keys(defaults).forEach(key => {
+        if (result[key] === undefined) {
+            result[key] = defaults[key];
         }
     });
 

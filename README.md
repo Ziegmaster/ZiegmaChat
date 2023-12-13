@@ -19,7 +19,8 @@ After customizing its size and position, you can use a special switch to turn it
 
 # 👍 Credits
 Thanks to [BlackyWhoElse](https://github.com/BlackyWhoElse/streamer.bot-actions) 
-for the chat widget that was modified for correct usage in this project.
+for the chat widget that was modified for correct usage in this project.  
+His themes are fully compatible. You can get them [here](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/chat/theme).
 
 # 🌐 Developing and building from source
 

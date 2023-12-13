@@ -64,7 +64,11 @@ window.addEventListener('DOMContentLoaded', async () => {
         window.ipcRenderer.invoke('theme-load', theme).then(themeData => {
             const tab = document.querySelector('.tab.theme-settings');
             tab.innerHTML = null;
-            if (!themeData.errorMessage) {
+            if(themeData.errorMessage){
+                tab.innerHTML = themeData.errorMessage;
+                tab.innerHTML += '<br><br>Visit <a target="_blank" href="https://github.com/TrueZiegmaster/ZiegmaChat/tree/main/widget/themes#readme">this page</a> if you are a developer.';
+            }
+            else{
                 Object.keys(themeData.config.fields).forEach(field => {
                     const block = document.createElement('div');
                     block.className = 'block';
@@ -135,12 +139,8 @@ window.addEventListener('DOMContentLoaded', async () => {
                     tab.append(block);
                 });
                 localSettings.widget.themes[theme] = themeData.settings;
-                toggleCopyOn();
             }
-            else{
-                tab.innerHTML = themeData.errorMessage;
-                tab.innerHTML += '<br><br>Visit <a target="_blank" href="https://github.com/TrueZiegmaster/ZiegmaChat/tree/main/widget/themes#readme">this page</a> if you are a developer.';
-            }
+            toggleCopyOn();
         });
     }
 
@@ -163,8 +163,8 @@ window.addEventListener('DOMContentLoaded', async () => {
             if (themeSelect.querySelector(`option[value="${settings.widget.general['theme']}"]`)) {
                 themeSelect.value = settings.widget.general['theme'];
                 loadTheme(settings.widget.general['theme']);
-                toggleCopyOn();
             }
+            toggleCopyOn();
             toggleApplyOff();
         });
     }
@@ -292,13 +292,11 @@ window.addEventListener('DOMContentLoaded', async () => {
             localSettings.widget.general['theme'] = themeSelect.value;
             loadTheme(themeSelect.value);
         }
-        else{
-            toggleCopyOn();
-        }
         if (botsValue !== localSettings.widget.general['bots']){
             changedSettings.widget.general['bots'] = botsValue;
             localSettings.widget.general['bots'] = botsValue;
         }
+        toggleCopyOn();
         toggleApplyOff();
         window.ipcRenderer.send('settings-set', changedSettings);
     });
