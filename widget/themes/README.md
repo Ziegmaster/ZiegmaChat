@@ -1,7 +1,7 @@
 # How to create your theme for ZiegmaChat
 
 **Each theme should have the following structure:**
-```
+```console
 widget/your_theme_folder
     /css - optional
         styles.css
