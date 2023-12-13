@@ -31,18 +31,18 @@ widget/your_theme_folder
 **Each query parameter should have the following structure:**
 ```json
 {
-    "label" : "...", // The text that will be displayed above the input
+    "label" : "anything", // The text that will be displayed above the input
     "input-type" : "text|number|checkbox|select", // The type of the input tag
     "options" : [], // Options are required for select inputs only
     "value" : {
         "data-type" : "string|integer|number|boolean", // The type of value stored in settings
-        "default" : "..." // The default value
+        "default" : "anything" // The default value
     },
-    "enabled" : true|false // You can interact with the input if it's enabled
+    "enabled" : "true or false" // You can interact with the input if it's enabled
 }
 ```
 
-**[schema](./schemas/theme.config.json) for `theme.config.json`**
+**[Schema](./schemas/theme.config.json) for `theme.config.json`**
 
 
 **[Example](./widget/themes/ziegmaster/theme.config.json)**

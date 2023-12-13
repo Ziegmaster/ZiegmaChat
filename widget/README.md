@@ -8,7 +8,7 @@
 | char-limit | any **[integer]** | 150 | Approximate limit for trimming a message that is too long. |
 | hide-links | any **[boolean]** | true | Replaces clickable links and emails with [link] and [email]. |
 | spam-protection | any **[integer]** | 20 | Hides messages which contain words longer than n characters (0 to disable). |
-| bots | any | **[array[string]]** | ExampleBot1,ExampleBot2,ZiegmaBot | List of bots to ignore their messages. |
+| bots | any **[array[string]]**| ExampleBot1,ExampleBot2,ZiegmaBot | List of bots to ignore their messages. |
 
 # Overridable animation query params
 | **Parameter** | **Possible values** | If omitted | **Description** |
