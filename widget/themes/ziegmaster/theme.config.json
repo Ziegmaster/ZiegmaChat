@@ -47,7 +47,7 @@
                 "bounceIn"
             ],
             "value": {
-                "type": "string",
+                "data-type": "string",
                 "default": "bounceIn"
             },
             "enabled": false
