@@ -11,7 +11,7 @@ widget/your_theme_folder
     theme.config.json - recommended
 ```
 
-**[Here](https://github.com/BlackyWhoElse/streamer.bot-actions/blob/main/widget/chat/theme/default/template.html) you can find the example file.**
+**[Here](https://github.com/BlackyWhoElse/streamer.bot-actions/blob/main/widget/chat/theme/default/template.html) you can find the example file for `themplate.html`**
 
 # Config requirements
 
