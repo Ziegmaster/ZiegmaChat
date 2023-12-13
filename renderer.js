@@ -12,12 +12,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     // NAVBAR BUTTONS
     const resetToDefaults = document.getElementById('reset-to-defaults');
 
-    // STATIC VALUE CONTAINERS
+    // BASE VALUE CONTAINERS
     const httpPortInput = document.getElementById('http-port');
     const wsPortInput = document.getElementById('ws-port');
     const debugCheckBox = document.getElementById('debug');
     const charLimitInput = document.getElementById('char-limit');
     const themeSelect = document.getElementById('theme');
+    const botsInput = document.getElementById('bots');
+    const spamProtectionInput = document.getElementById('spam-protection');
+    const hideLinksCheckBox =document.getElementById('hide-links');
 
     const toggleApplyOn = () => {
         applyButton.classList.remove('disabled');
@@ -148,6 +151,9 @@ window.addEventListener('DOMContentLoaded', async () => {
             wsPortInput.value = settings.widget.general['ws-port'];
             debugCheckBox.checked = settings.widget.general['debug'];
             charLimitInput.value = settings.widget.general['char-limit'];
+            hideLinksCheckBox.checked = settings.widget.general['hide-links'];
+            spamProtectionInput.value = settings.widget.general['spam-protection'];
+            botsInput.value = settings.widget.general['bots'].join('\n');
             if (settings.widget.gameMode) {
                 gameModeCheckBox.classList.remove('disabled');
             }
@@ -168,6 +174,9 @@ window.addEventListener('DOMContentLoaded', async () => {
     wsPortInput.addEventListener('input', toggleApplyOn);
     themeSelect.addEventListener('change', toggleApplyOn);
     charLimitInput.addEventListener('input', toggleApplyOn);
+    botsInput.addEventListener('input', toggleApplyOn);
+    hideLinksCheckBox.addEventListener('change', toggleApplyOn);
+    spamProtectionInput.addEventListener('input', toggleApplyOn);
 
     /*
     * APPEND ACTIONS TO TOP BUTTONS
@@ -203,6 +212,9 @@ window.addEventListener('DOMContentLoaded', async () => {
         const httpPortValue = parseInt(httpPortInput.value);
         const wsPortValue = parseInt(wsPortInput.value);
         const charLimitValue = parseInt(charLimitInput.value);
+        const botsValue = botsInput.value.split('\n').filter((str) => str !== '');
+        const spamProtectionValue = parseInt(spamProtectionInput.value);
+        botsInput.value = botsValue.join('\n');
         // Save current theme changed settings in case of theme change
         changedSettings.widget.themes[localSettings.widget.general['theme']] = {};
         document.querySelectorAll('.theme-qp-input').forEach(input => {
@@ -267,6 +279,14 @@ window.addEventListener('DOMContentLoaded', async () => {
             changedSettings.widget.general['char-limit'] = charLimitValue;
             localSettings.widget.general['char-limit'] = charLimitValue;
         }
+        if (hideLinksCheckBox.checked !== localSettings.widget.general['hide-links']) {
+            changedSettings.widget.general['hide-links'] = hideLinksCheckBox.checked;
+            localSettings.widget.general['hide-links'] = hideLinksCheckBox.checked;
+        }
+        if (spamProtectionValue !== localSettings.widget.general['spam-protection']) {
+            changedSettings.widget.general['spam-protection'] = spamProtectionValue;
+            localSettings.widget.general['spam-protection'] = spamProtectionValue;
+        }
         if (themeSelect.value !== localSettings.widget.general['theme']) {
             changedSettings.widget.general['theme'] = themeSelect.value;
             localSettings.widget.general['theme'] = themeSelect.value;
@@ -274,6 +294,10 @@ window.addEventListener('DOMContentLoaded', async () => {
         }
         else{
             toggleCopyOn();
+        }
+        if (botsValue !== localSettings.widget.general['bots']){
+            changedSettings.widget.general['bots'] = botsValue;
+            localSettings.widget.general['bots'] = botsValue;
         }
         toggleApplyOff();
         window.ipcRenderer.send('settings-set', changedSettings);
@@ -284,6 +308,9 @@ window.addEventListener('DOMContentLoaded', async () => {
         wsPortInput.value = localSettings.widget.general['ws-port'];
         debugCheckBox.checked = localSettings.widget.general['debug'];
         charLimitInput.value = localSettings.widget.general['char-limit'];
+        botsInput.value = localSettings.widget.general['bots'].join('\n');
+        hideLinksCheckBox.checked = localSettings.widget.general['hide-links'];
+        spamProtectionInput.value = localSettings.widget.general['spam-protection'];
         document.querySelectorAll('.theme-qp-input').forEach(input => {
             const localValue = localSettings.widget.themes[localSettings.widget.general['theme']][input.dataset.qpName];
             if (input.tagName == 'select' || input.type != 'checkbox') {

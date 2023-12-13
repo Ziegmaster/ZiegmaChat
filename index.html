@@ -44,17 +44,17 @@
     <div class="content-wrapper">
       <div class="tab general-settings active" data-title="General">
         <div class="block">
-          <label for="http-port">HTTP port</label>
+          <label>HTTP port</label>
           <input id="http-port" type="number" />
         </div>
         <div class="block">
-          <label for="theme">Theme</label>
+          <label>Theme</label>
           <select id="theme" class="base-qp-input">
             <!--Dynamic content-->
           </select>
         </div>
         <div class="block">
-          <label for="debug">Show test messages</label>
+          <label>Show test messages</label>
           <br>
           <label class="switch">
             <input id="debug" class="base-qp-input" type="checkbox">
@@ -62,15 +62,39 @@
           </label>
         </div>
         <div class="block">
-          <label for="char-limit">Character limit per message</label>
+          <label>Character limit per message</label>
           <input id="char-limit" class="base-qp-input" type="number" />
+        </div>
+        <div class="block">
+          <label>Hide links</label>
+          <br>
+          <label class="switch">
+            <input id="hide-links" class="base-qp-input" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div class="block">
+          <label>
+            Spam protection treshold
+            <br>
+            (0 to disable)
+          </label>
+          <input id="spam-protection" type="number" />
+        </div>
+        <div class="block">
+          <label>
+            List your bots
+            <br>
+            (One per row)
+          </label>
+          <textarea id="bots" class="base-qp-input" spellcheck="false"></textarea>
         </div>
       </div>
       <div class="tab theme-settings" data-title="Theme">
       </div>
       <div class="tab streamerbot-settings" data-title="Streamer.bot">
         <div class="block">
-          <label for="ws-port">Websocket port</label>
+          <label>Websocket port</label>
           <input id="ws-port" class="base-qp-input" type="number" />
         </div>
       </div>

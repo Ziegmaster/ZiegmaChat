@@ -23,7 +23,7 @@
             "enabled": true
         },
         "hide-delay" : {
-            "label": "Message hide delay (1000 = 1s)",
+            "label": "Message hide delay\n(1000 = 1s, 0 to disable)",
             "input-type": "number",
             "value": {
                 "data-type": "integer",
@@ -41,7 +41,7 @@
             "enabled": true
         },
         "show-animation" : {
-            "label": "Message show animation",
+            "label": "Message show animation\n(Currently disabled)",
             "input-type": "select",
             "options": [
                 "bounceIn"
@@ -53,7 +53,7 @@
             "enabled": false
         },
         "hide-animation" : {
-            "label": "Message hide animation",
+            "label": "Message hide animation\n(Currently disabled)",
             "input-type": "select",
             "options": [
                 "fadeOut"

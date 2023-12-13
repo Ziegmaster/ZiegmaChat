@@ -161,8 +161,8 @@ app.setHandlers = function(){
   ipcMain.handle('theme-load', (_, theme) => {
     try {
       const themeConfig = parseConfig(
-        path.join(__dirname, `/widget/themes/${theme}/ziegmachat.config.json`),
-        path.join(__dirname, '/schemas/ziegmachat.config.json')
+        path.join(__dirname, `/widget/themes/${theme}/theme.config.json`),
+        path.join(__dirname, '/schemas/theme.config.json')
       );
       if (!themeConfig){
         throw new Error('Theme config file is invalid or empty.');

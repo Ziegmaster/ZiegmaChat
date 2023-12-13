@@ -7,6 +7,7 @@
     --background-color-darker: #101010;
     --background-color-primary: #141414;
     --background-color-lighter: #242424;
+    --background-color-light: #323232;
     --button-color-purple: #A257ED;
     --button-color-teal: #00DBFF;
     --button-color-green: #0b6506;
@@ -40,8 +41,25 @@ select {
     cursor: pointer
 }
 
-input[type=number],input[type=text],select {
-    height: 2rem;
+textarea{
+    height: 10em;
+    resize: none;
+    box-sizing: border-box;
+    padding: .5em;
+}
+
+textarea::-webkit-scrollbar {
+    width: .5rem;
+    padding: .5rem;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: var(--background-color-light);
+    background-clip: content-box;
+    border-radius: .5rem
+}
+
+input[type=number],input[type=text],select, textarea {
     width: -webkit-fill-available;
     margin-top: .5rem;
     margin-bottom: .5rem;
@@ -51,6 +69,10 @@ input[type=number],input[type=text],select {
     border-radius: .4rem;
     border: 0;
     outline: 0;
+}
+
+input[type=number],input[type=text],select {
+    height: 2rem;
     text-align: center
 }
 
@@ -262,11 +284,11 @@ a:hover, a:active {
     text-decoration: underline;
 }
 
-::-webkit-scrollbar {
+.tab::-webkit-scrollbar {
     width: .5rem
 }
 
-::-webkit-scrollbar-thumb {
+.tab::-webkit-scrollbar-thumb {
     background: var(--background-color-lighter);
     background-clip: content-box;
     border-radius: .5rem

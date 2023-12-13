@@ -9,25 +9,39 @@ const qpData = (() => {
         'debug': false,
         'msg-interval': 4000,
         'char-limit': 150,
+        'spam-protection': 20,
+        'hide-links': true,
+        'bots': [],
         'ws-port': 8080,
+        'animate': true,
+        'show-animation': 'bounceIn',
+        'hide-animation': 'fadeOut',
+        'hide-delay': 15000,
     };
 
     const urlParams = new URLSearchParams(window.location.search);
 
     urlParams.forEach((value, key) => {
-        result[key] = (() => {
-            const intValue = parseInt(value);
-            if (!isNaN(intValue)) {
-                return intValue;
-            }
-            if (value === 'true') {
-                return true;
-            }
-            if (value === 'false') {
-                return false;
-            }
-            return value;
-        })();
+        switch(key){
+            case 'bots':
+                result[key] = value.split(',');
+                break;
+            default:
+                result[key] = (() => {
+                    const intValue = parseInt(value);
+                    if (!isNaN(intValue)) {
+                        return intValue;
+                    }
+                    if (value === 'true') {
+                        return true;
+                    }
+                    if (value === 'false') {
+                        return false;
+                    }
+                    return value;
+                })();
+                break;
+        }
     });
 
     //Ensure default params present to run the widget correctly
@@ -51,11 +65,24 @@ const settings = {
     filter: {
         //Max number of characters displayed per message (approx)
         characterLimit: qpData['char-limit'],
+        spamProtection: qpData['spam-protection'],
+        hideLinks: qpData['hide-links']
     },
     blacklist: {
-        //List your bots here
-        user: ['ZiegmaBot'],
+        user: qpData['bots'],
         words: [],
         commands: false,
+    },
+    animations: {
+        animation: qpData['animate'],
+        hidedelay: qpData['hide-delay'],
+        hideAnimation: qpData['hide-animation'],
+        showAnimation: `${qpData['show-animation']}Right`
+    },
+    YouTube: {
+        defaultChatColor: '#f20000',
+    },
+    Twitch: {
+        defaultChatColor: '#9147ff',
     }
 };

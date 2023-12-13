@@ -17,6 +17,13 @@ settings.set('defaults', {
             'debug': true,
             'char-limit': 150,
             'theme': 'ziegmaster',
+            'spam-protection' : 20,
+            'hide-links' : true,
+            'bots' : [
+                'ExampleBot1',
+                'ExampleBot2',
+                'ZiegmaBot'
+            ]
         },
         themes: {
             /*
