@@ -18,7 +18,7 @@ widget/your_theme_folder
 **`theme.config.json` file is needed to provide a theme configuration template to ZiegmaChat.**
 
 
-**Minimal structure for `theme.config.json` to remove the error message is:**
+**Minimal `theme.config.json` structure to remove the error message is:**
 ```json
 {
     "fields" : {}
