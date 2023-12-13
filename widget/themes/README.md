@@ -25,7 +25,7 @@ widget/your_theme_folder
 }
 ```
 
-**Any key inside the `fields` property is considered a query param, so name it properly.**
+**Any key inside the `fields` property is considered a query param, so name them properly.**
 
 
 **Each query parameter should have the following structure:**
